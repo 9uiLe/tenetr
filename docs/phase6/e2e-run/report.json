@@ -1,0 +1,619 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-c21c0560da39",
+  "task": {
+    "id": "declutter-completion-screen",
+    "description": "日次完了画面の初期表示を必要最小限にし、次の行動が迷わず1つに定まるようにする。完了の事実と連続記録は残す。",
+    "scenario": "completed",
+    "screen": "日次パズル完了画面"
+  },
+  "design_intent": {
+    "schema_version": "1.0",
+    "task": {
+      "id": "declutter-completion-screen",
+      "description": "日次完了画面の初期表示を必要最小限にし、次の行動が迷わず1つに定まるようにする。完了の事実と連続記録は残す。",
+      "scenario": "completed",
+      "screen": "日次パズル完了画面"
+    },
+    "classification": "improve-existing-screen",
+    "applicable_principles": [
+      {
+        "id": "focus.single-primary-decision",
+        "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3, completion-screen-v4, completion-screen-v5 が支持、却下例 completion-screen-v1 が違反として記録)"
+      },
+      {
+        "id": "information.minimal-first-view",
+        "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v4 が支持、却下例 completion-screen-v2 が違反として記録)"
+      },
+      {
+        "id": "expression.no-artificial-excitement",
+        "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3 が支持、却下例 completion-screen-v1 が違反として記録)"
+      },
+      {
+        "id": "consistency.use-established-components",
+        "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3 が支持、却下例 completion-screen-v6 が違反として記録)"
+      },
+      {
+        "id": "brand.expression-within-usability",
+        "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v5 が支持、却下例 completion-screen-v6 が違反として記録)"
+      }
+    ],
+    "referenced_exemplars": [
+      {
+        "id": "completion-screen-v3",
+        "relation": "follow"
+      },
+      {
+        "id": "completion-screen-v4",
+        "relation": "follow"
+      },
+      {
+        "id": "completion-screen-v5",
+        "relation": "follow"
+      },
+      {
+        "id": "completion-screen-v1",
+        "relation": "avoid"
+      },
+      {
+        "id": "completion-screen-v2",
+        "relation": "avoid"
+      },
+      {
+        "id": "completion-screen-v6",
+        "relation": "avoid"
+      }
+    ],
+    "tradeoff_resolutions": [],
+    "unresolved_items": [
+      {
+        "id": "reminder-placement",
+        "question": "リマインダー導線を開示操作の背後へ移してよいか",
+        "blocking": false,
+        "default_answer": "開示の背後へ移す(minimal-first-view を優先)"
+      }
+    ],
+    "acceptance_criteria": [
+      "primary-control-count == 1",
+      "primary-secondary-style-distinct == true",
+      "required-elements-present == true",
+      "hardcoded-style-values == 0"
+    ],
+    "constraints": [
+      "完了の事実(ヘッダー)を残す",
+      "連続記録の表示を残す"
+    ],
+    "ready_to_implement": true,
+    "ready_blockers": []
+  },
+  "applicable_principles": [
+    {
+      "id": "focus.single-primary-decision",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3, completion-screen-v4, completion-screen-v5 が支持、却下例 completion-screen-v1 が違反として記録)"
+    },
+    {
+      "id": "information.minimal-first-view",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v4 が支持、却下例 completion-screen-v2 が違反として記録)"
+    },
+    {
+      "id": "expression.no-artificial-excitement",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3 が支持、却下例 completion-screen-v1 が違反として記録)"
+    },
+    {
+      "id": "consistency.use-established-components",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3 が支持、却下例 completion-screen-v6 が違反として記録)"
+    },
+    {
+      "id": "brand.expression-within-usability",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v5 が支持、却下例 completion-screen-v6 が違反として記録)"
+    }
+  ],
+  "summary": {
+    "deterministic": {
+      "pass": 1,
+      "fail": 0,
+      "unknown": 5
+    },
+    "model": {
+      "pass": 3,
+      "warn": 1,
+      "unknown": 0
+    },
+    "human_review": 2
+  },
+  "findings": [
+    {
+      "id": "finding-model-focus-single-primary-decision",
+      "evaluator": "model-claude-cli",
+      "principle": "focus.single-primary-decision",
+      "kind": "model",
+      "verdict": "human_review",
+      "confidence": 0.62,
+      "observations": [
+        {
+          "type": "visual",
+          "fact": "after画面の最下部には filled/primaryスタイルの青いボタン「練習する」が1つだけ存在する。"
+        },
+        {
+          "type": "visual",
+          "fact": "「ノーミス」「ヒントなし」は塗りが薄い/アウトラインのピル型バッジで、主操作ボタンより彩度・塗りの視覚的重みが明確に弱い。"
+        },
+        {
+          "type": "visual",
+          "fact": "ヘッダー「今日のパス」直下に完了の事実「今日のパス完了」「5/5 ROUND」があり、その下に連続記録カード「4日連続で達成中」と直近7日の達成グリッドが表示されている。"
+        },
+        {
+          "type": "visual",
+          "fact": "連続記録カードとボタンの間に「次のパスは明日。また挑戦できます」というテキスト行がある。"
+        },
+        {
+          "type": "visual",
+          "fact": "主ボタンの直前に、白背景・枠線・ベルアイコン・見出し「通知をオンにする」・補足「毎日20:00に通知」・右向きchevronを持つタップ可能な行が配置され、その下に「タップすると通知の許可を確認します」という説明文が続く。"
+        },
+        {
+          "type": "visual",
+          "fact": "exemplar-v3(採用)はアイコン・タイトル・ラウンド数・連続記録カードの直後に、単一のfilled CTA「つづける」とテキストリンク「きょうの記録を見る」のみで構成されている。"
+        },
+        {
+          "type": "visual",
+          "fact": "exemplar-v1(却下)は同格のfilled CTAが2つ並び、紙吹雪と強いグラデーション背景を伴う。"
+        },
+        {
+          "type": "metadata",
+          "fact": "confidence 0.62 が閾値 0.7 未満のため human_review へ昇格 (§12.4)"
+        }
+      ],
+      "judgment": "filledスタイルの主操作は「練習する」1つのみで、副操作(ノーミス/ヒントなしバッジ)は塗り・彩度が明確に弱く、狭義の『filled控えは画面に1つだけ』という兆候は満たしている。一方でexemplar-v3の必要最小限構成(アイコン→タイトル→ラウンド数→連続記録カード→CTA→軽いテキストリンク)と比べ、afterには『次のパスは明日』の文言と、枠線・アイコン・2行テキスト・chevronを備えた『通知をオンにする』行という、視覚的重みが中程度でタップ可能な要素が主ボタン直前に追加されている。chevronは『別の判断/遷移がある』という慣習的シグナルであり、日次完了直後にユーザーへ提示される実質的な意思決定ポイントが『練習する』か『通知設定に踏み込む』かで二択的に見える余地がある。タスク制約は『完了の事実(ヘッダー)』と『連続記録の表示』のみを残すことを求めており、通知カードやバッジ・文言はその範囲を超えた追加情報であるため、必要最小限化の徹底度はexemplarに届いていない。厳密なfilled原則には反しないためfailとは言えないが、通知行が副次的な決定導線として機能しうるかは意匠上の価値判断が伴うため、warnとして報告する。",
+      "remediation": "『通知をオンにする』行をカード/chevron付きの独立操作から、テキストリンクや控えめな案内バナーへ格下げするか、初期表示から外して完了後の別画面/設定内に移動する。『次のパスは明日』文言と『ノーミス/ヒントなし』バッジも、完了の事実・連続記録の表示に含まれない付加情報であれば削除または折りたたみ、exemplar-v3同様に『アイコン→タイトル→ラウンド数→連続記録カード→単一CTA→軽いテキストリンク』へ縮約することを検討する。",
+      "evidence": [
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.04,
+            "y": 0.615,
+            "width": 0.92,
+            "height": 0.075
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.25,
+            "y": 0.525,
+            "width": 0.5,
+            "height": 0.03
+          }
+        }
+      ]
+    },
+    {
+      "id": "finding-model-consistency-use-established-components",
+      "evaluator": "model-claude-cli",
+      "principle": "consistency.use-established-components",
+      "kind": "model",
+      "verdict": "human_review",
+      "confidence": 0.6,
+      "observations": [
+        {
+          "type": "visual",
+          "fact": "完了バッジは緑色の円形シール型(seal)チェックマークアイコンで、accepted事例(v3)およびrejected事例(v6)がともに用いる角丸正方形の緑チェックマークとは形状が異なる。"
+        },
+        {
+          "type": "visual",
+          "fact": "連続記録カード(「4日連続で達成中」)は薄い枠線(ストローク)を持つ角丸カードとして表示されており、v3事例の同カード(枠線なし・白背景のみ)とは境界表現が異なる。"
+        },
+        {
+          "type": "visual",
+          "fact": "連続記録カードの直下に「ノーミス」「ヒントなし」のピル型バッジ(アイコン+テキスト、薄枠・角丸)が新たに存在し、v3/v6のどちらの事例にも対応要素がない。"
+        },
+        {
+          "type": "visual",
+          "fact": "「次のパスは明日。また挑戦できます」という区切り線付きテキスト行と、ベル アイコン・タイトル・サブテキスト・シェブロンで構成される「通知をオンにする」リスト行カードが追加されており、これらもv3/v6の事例には存在しない。"
+        },
+        {
+          "type": "visual",
+          "fact": "主要CTAボタン「練習する」は単色の青い塗り・角丸長方形で、グラデーション塗り・ネオン発光縁取り・破線枠は見られない。"
+        },
+        {
+          "type": "visual",
+          "fact": "画面内のカード・ピル・ボタンの角丸半径はおおむね統一されており、v6事例に見られる不揃いな角丸は観測されない。"
+        },
+        {
+          "type": "visual",
+          "fact": "見出し直下の「5 / 5 ROUND」表記はラテン文字大文字が使われており、v3/v6事例の「5 / 5 ラウンド」という全角カナ表記と字形の扱いが異なる。"
+        },
+        {
+          "type": "metadata",
+          "fact": "confidence 0.6 が閾値 0.7 未満のため human_review へ昇格 (§12.4)"
+        }
+      ],
+      "judgment": "グラデーション塗り・ネオン発光・破線枠・不揃いな角丸といった、rejected事例(v6)で観測された「この画面専用の変形コンポーネント」の兆候はafter画面には見られず、色トークン(青=主操作、緑=達成)と角丸のルールは画面全体で概ね統一されている。この点ではaccepted事例(v3)の抑制されたトーンに近い。一方で、完了バッジの形状(シール型 vs 角丸正方形)、連続記録カードの枠線表現(ストローク付き vs 枠なし)、そして新規に追加されたピルバッジや通知設定リスト行は、提供された事例画像には存在しないため、これらが既存デザインシステムの確立済みコンポーネントを再利用したものか、この画面のために新規定義された変種かを画像だけから判別できない。装飾面での明白な逸脱(v6型の違反)は無いが、コンポーネント出自の確認が取れない要素が複数あるため、確信度を抑えたwarn判定とする。",
+      "remediation": "バッジアイコン(シール型チェックマーク)、ストローク付きカード、ピルバッジ、通知設定リスト行のスタイル定義が、デザインシステムの既存コンポーネント/トークンに紐づいているかを確認し、独自定義であれば共通コンポーネントへ統合するか、既存の完了バッジ(角丸正方形チェックマーク)スタイルに揃えることを検討する。",
+      "evidence": [
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.44,
+            "y": 0.14,
+            "width": 0.12,
+            "height": 0.06
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.038,
+            "y": 0.295,
+            "width": 0.924,
+            "height": 0.2
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.26,
+            "y": 0.5175,
+            "width": 0.478,
+            "height": 0.028
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.038,
+            "y": 0.6375,
+            "width": 0.924,
+            "height": 0.05
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.038,
+            "y": 0.9225,
+            "width": 0.924,
+            "height": 0.03
+          }
+        }
+      ]
+    },
+    {
+      "id": "finding-model-information-minimal-first-view",
+      "evaluator": "model-claude-cli",
+      "principle": "information.minimal-first-view",
+      "kind": "model",
+      "verdict": "warn",
+      "confidence": 0.85,
+      "observations": [
+        {
+          "type": "visual",
+          "fact": "初期表示にヘッダー「今日のパス」、完了バッジ、「今日のパス完了」、「5 / 5 ROUND」が表示されている"
+        },
+        {
+          "type": "visual",
+          "fact": "「4日連続で達成中」の見出しと直近7日間の連続記録グリッド(4/7日達成)が完了ヘッダー直下に表示されている"
+        },
+        {
+          "type": "visual",
+          "fact": "連続記録ブロックの下に「ノーミス」「ヒントなし」の2つのバッジピルが、開示操作(タップ)を介さず初期表示のまま並んでいる"
+        },
+        {
+          "type": "visual",
+          "fact": "バッジピルの下に「次のパスは明日。また挑戦できます」という追加情報ボックスが初期表示されている"
+        },
+        {
+          "type": "visual",
+          "fact": "その下に「通知をオンにする / 毎日20:00に通知」の設定カードと、「タップすると通知の許可を確認します。時刻は設定から変更できます」という補足説明文が初期表示されている"
+        },
+        {
+          "type": "visual",
+          "fact": "画面最下部に主操作CTAボタン「練習する」が1つ存在する"
+        },
+        {
+          "type": "visual",
+          "fact": "exemplar-v4に見られる「詳細を見る(バッジ・統計)」のような開示導線は after 画像に存在せず、バッジ・次回案内・通知設定がすべて開示操作なしで初期視界に並んでいる"
+        }
+      ],
+      "judgment": "完了の事実(ヘッダーとバッジ)と連続記録(4日連続・7日グリッド)は制約通り保持されており、この2要素はexemplar-v4と同等の構成になっている。一方でCTAに至るまでの間に、ノーミス/ヒントなしのバッジ列、次回パス案内、通知オン設定カード(説明文付き)という3つの追加情報ブロックが開示操作の背後に置かれず初期表示に並んでおり、原則が定める観測可能な兆候「追加情報・設定は明示的な開示操作の背後にある」を満たしていない。構成としてはexemplar-v4(バッジ等をdisclosure化)よりもexemplar-v2(バッジ列・追加カードを初期表示に並べる)に近く、次の行動へ進む前に複数の情報ブロックを読む必要がある。ただし件数・情報量はv2ほど多くなく(統計グリッドやランキング、広告カードは無い)、完全な情報過多とまでは言えないため、明確な失敗ではなく原則からの逸脱として警告する。",
+      "remediation": "「ノーミス」「ヒントなし」バッジ、「次のパスは明日」案内、「通知をオンにする」カードをexemplar-v4の「詳細を見る」のような単一の開示行の背後にまとめ、初期表示は完了ヘッダー・連続記録・CTA(練習する)のみに絞る。",
+      "evidence": [
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.24,
+            "y": 0.5,
+            "width": 0.52,
+            "height": 0.045
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.03,
+            "y": 0.56,
+            "width": 0.94,
+            "height": 0.045
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.03,
+            "y": 0.625,
+            "width": 0.94,
+            "height": 0.12
+          }
+        }
+      ]
+    },
+    {
+      "id": "finding-primary-control-count",
+      "evaluator": "primary-control-count",
+      "principle": "focus.single-primary-decision",
+      "check": "primary-control-count",
+      "kind": "deterministic",
+      "verdict": "unknown",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "ui-snapshot.json が存在しない"
+        }
+      ],
+      "judgment": "UI メタデータが無いため判定不能 (§12.2 により画像からの推定はしない)"
+    },
+    {
+      "id": "finding-primary-secondary-style-distinct",
+      "evaluator": "primary-secondary-style-distinct",
+      "principle": "focus.single-primary-decision",
+      "check": "primary-secondary-style-distinct",
+      "kind": "deterministic",
+      "verdict": "unknown",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "ui-snapshot.json が存在しない"
+        }
+      ],
+      "judgment": "UI メタデータが無いため判定不能 (§12.2 により画像からの推定はしない)"
+    },
+    {
+      "id": "finding-required-elements",
+      "evaluator": "required-elements-present",
+      "check": "required-elements-present",
+      "kind": "deterministic",
+      "verdict": "unknown",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "scenario に required_element_identifiers が宣言されていない"
+        }
+      ],
+      "judgment": "必須要素の機械的対応付けが未宣言のため判定不能"
+    },
+    {
+      "id": "finding-accessibility-label",
+      "evaluator": "accessibility-label",
+      "check": "accessibility-label",
+      "kind": "deterministic",
+      "verdict": "unknown",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "ui-snapshot.json が存在しない"
+        }
+      ],
+      "judgment": "UI メタデータが無いため判定不能 (§12.2 により画像からの推定はしない)"
+    },
+    {
+      "id": "finding-tap-target-size",
+      "evaluator": "tap-target-size",
+      "check": "tap-target-size",
+      "kind": "deterministic",
+      "verdict": "unknown",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "ui-snapshot.json が存在しない"
+        }
+      ],
+      "judgment": "UI メタデータが無いため判定不能 (§12.2 により画像からの推定はしない)"
+    },
+    {
+      "id": "finding-artifact-presence",
+      "evaluator": "artifact-presence",
+      "check": "required-artifacts-present",
+      "kind": "deterministic",
+      "verdict": "pass",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "必要成果物がすべて存在する (screenshot.png)"
+        }
+      ],
+      "judgment": "capture 成果物は完全"
+    },
+    {
+      "id": "finding-model-expression-no-artificial-excitement",
+      "evaluator": "model-claude-cli",
+      "principle": "expression.no-artificial-excitement",
+      "kind": "model",
+      "verdict": "pass",
+      "confidence": 0.85,
+      "observations": [
+        {
+          "type": "visual",
+          "fact": "背景は単色の薄い水色(グラデーションなし)で、紙吹雪・ネオン・強いグラデーションなどの装飾要素は見られない。"
+        },
+        {
+          "type": "visual",
+          "fact": "達成バッジは静的な緑色のシール型チェックマークアイコン1つのみで、グローや発光・アニメーション的な強調表現はない。"
+        },
+        {
+          "type": "visual",
+          "fact": "画面下部の主操作は「練習する」の単色filledボタン1つのみで、同格のfilled CTAが並存していない。"
+        },
+        {
+          "type": "visual",
+          "fact": "「ノーミス」「ヒントなし」は白背景+緑アウトラインの控えめなピル型タグで、視覚的強度は見出しテキストより弱い。"
+        },
+        {
+          "type": "visual",
+          "fact": "「通知をオンにする」行は罫線付きの白背景カードで、chevron(>)を伴う副次的な設定導線として表現されており、filledボタンではない。"
+        },
+        {
+          "type": "visual",
+          "fact": "「4日連続で達成中」カードは白背景+青文字の統計表示で、装飾レイヤーではなく情報レイヤーとして構成されている。"
+        }
+      ],
+      "judgment": "exemplar-v3(採用)と同様に、背景は装飾のない単色、達成演出はグロー・紙吹雪・強グラデーションを伴わない静的なバッジのみであり、rejected exemplar(v1)に見られた過剰な祝祭演出やfilled CTAの並列競合は存在しない。次の行動を示す主操作(filled CTA)は「練習する」1つに定まっており、原則expression.no-artificial-excitementの観点では準拠していると判断できる。ただし「通知をオンにする」カードやノーミス/ヒントなしタグ、次回予告テキストはexemplar-v3より情報量が多く、タスクが求める「必要最小限」の初期表示という点では、装飾ではなく情報密度の観点からやや厚みがある点に留意が必要。",
+      "remediation": "「通知をオンにする」カードや「次のパスは明日〜」の案内文など、完了直後の判断に必須でない情報要素は折りたたみ表示や別画面への遅延表示にすることで、初期表示の情報量をexemplar-v3によりいっそう近づけられる。",
+      "evidence": [
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.05,
+            "y": 0.28,
+            "width": 0.9,
+            "height": 0.16
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.03,
+            "y": 0.78,
+            "width": 0.94,
+            "height": 0.09
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.03,
+            "y": 0.86,
+            "width": 0.94,
+            "height": 0.05
+          }
+        }
+      ]
+    },
+    {
+      "id": "finding-model-brand-expression-within-usability",
+      "evaluator": "model-claude-cli",
+      "principle": "brand.expression-within-usability",
+      "kind": "model",
+      "verdict": "pass",
+      "confidence": 0.75,
+      "observations": [
+        {
+          "type": "visual",
+          "fact": "達成バッジ(緑のチェックアイコン)と週間グリッドの達成マスに緑のアクセントカラーが使われ、見出し・本文は黒/濃紺のテキストのまま可読性が保たれている。"
+        },
+        {
+          "type": "visual",
+          "fact": "「4日連続で達成中」のテキストと下部固定CTA「練習する」ボタンに青のアクセントカラーが使われているが、いずれも標準的な塗り/角丸の形状で、グラデーション・ネオン発光・独自形状などの装飾は見られない。"
+        },
+        {
+          "type": "visual",
+          "fact": "「ノーミス」「ヒントなし」のチップと「通知をオンにする」の行は、既存のピル/カードコンポーネントの形状(角丸・標準枠線)に沿っており、この画面専用の変形要素は確認できない。"
+        },
+        {
+          "type": "visual",
+          "fact": "主要CTAボタンおよび達成グリッドのタップ領域は矩形/正方形で十分な大きさがあり、装飾によって縮小・侵食されている箇所は見当たらない。"
+        }
+      ],
+      "judgment": "ブランドアクセント(緑=達成、青=主操作)は用途ごとに使い分けられたトーンとして機能面に留まっており、本文の可読性やCTA・チェックマスのタップ領域を損なっていない。exemplar-v6で却下された独自枠・グラデーション・ネオン発光のような装飾逸脱は見られず、exemplar-v5の『達成表示にのみアクセント色、主操作は標準のまま』というトーンの一貫性に沿っている。",
+      "remediation": "「通知をオンにする」行のベルアイコンにも主CTAと同じ青を使っているため、階層を明確にしたい場合はこの行をグレー等の中立色にして、青は主操作ボタンのみに絞ることを検討する。"
+    },
+    {
+      "id": "finding-model-expression-artificial-excitement",
+      "evaluator": "model-claude-cli",
+      "principle": "expression.artificial-excitement",
+      "kind": "model",
+      "verdict": "pass",
+      "confidence": 0.92,
+      "observations": [
+        {
+          "type": "visual",
+          "fact": "背景は単色に近いごく薄い水色(#eef4fb系)で、却下例(v1)にあるようなピンク→水色→黄緑の強いグラデーションは見られない。"
+        },
+        {
+          "type": "visual",
+          "fact": "完了を示す装飾は緑色のバッジアイコン(チェックマーク)のみで、紙吹雪・パーティ絵文字・キラキラ等のパーティクル装飾は画面内に存在しない。"
+        },
+        {
+          "type": "visual",
+          "fact": "CTAボタンは画面下部に「練習する」の単色(フラット塗り)ブルーボタン1つのみで、却下例v1にあった同格2ボタン(つづける/シェアする)の並立は解消されている。"
+        },
+        {
+          "type": "visual",
+          "fact": "ボタンやカードの枠線・シャドウにネオン発光やグラデーション塗り、破線のカラフル枠は見られず、却下例v6にあった専用ネオンボタンや点線ピンク枠は再発していない。"
+        },
+        {
+          "type": "visual",
+          "fact": "見出し「今日のパス完了」と連続記録「4日連続で達成中」、直近7日の達成状況グリッドは画面上部に維持されている。"
+        }
+      ],
+      "judgment": "after画像は却下例v1・v6で問題視されたグロー、紙吹雪、ネオン、強いグラデーション背景、同格CTAの並立、専用の異形装飾ボタンのいずれも再発していない。配色はアプリの標準トーン(淡い背景+単色ブルーCTA+単色グリーン達成バッジ)に収まっており、達成感の誇張演出は見当たらない。完了の事実(ヘッダー)と連続記録の表示という制約も維持されている。",
+      "evidence": [
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.28,
+            "y": 0.55,
+            "width": 0.44,
+            "height": 0.06
+          }
+        },
+        {
+          "type": "image_region",
+          "artifact": "screenshot.png",
+          "region": {
+            "x": 0.03,
+            "y": 0.945,
+            "width": 0.94,
+            "height": 0.045
+          }
+        }
+      ]
+    }
+  ],
+  "reproduction": {
+    "scenario": "completed",
+    "environment": {
+      "device": "iphone-simulator",
+      "os": "iOS 26",
+      "locale": "ja-JP",
+      "appearance": "light",
+      "dynamic_type": "default"
+    },
+    "capture_tool": {
+      "tool": "committed-before-image",
+      "tool_version": "issue-3-evidence"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "screenshot.png",
+      "sha256": "f6d4c4ff096bb910b570d27657a4f97831ddcc7fc4e3de8ae8c602547dd20b31"
+    }
+  ],
+  "versions": {
+    "harness": "0.1.0",
+    "philosophy_pack": "0.1.0"
+  }
+}

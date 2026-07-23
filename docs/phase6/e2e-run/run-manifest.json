@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-c21c0560da39",
+  "started_at": "2026-07-23T17:34:31.239Z",
+  "completed_at": "2026-07-23T17:41:41.557Z",
+  "versions": {
+    "philosophy_pack": "0.1.0",
+    "philosophy_pack_sha256": "7a9aec7efdcdc34d60d8e49c1b55466eaa678e8436a1a10d6122f1186aec61e4",
+    "harness": "0.1.0"
+  },
+  "source": {
+    "repository": "https://github.com/9uiLe/tenetr.git",
+    "commit": "a042b0c23eaaec286462074e305fa06a4d9e0a75",
+    "dirty": false
+  },
+  "task": {
+    "file": "examples/num-path/task.yaml",
+    "sha256": "29ef240536e67c48e9292049bcf50c060a0e6ad7d2cffceec6374d1b8b3c79ff"
+  },
+  "intent": {
+    "file": "intent.json",
+    "sha256": "393adf6d9333e4bf40baab092abd2c6463f7c3118df106a06dfd4282222bddbf"
+  },
+  "capture": {
+    "scenario": "completed",
+    "device": "iphone-simulator",
+    "os": "iOS 26",
+    "locale": "ja-JP",
+    "appearance": "light",
+    "dynamic_type": "default"
+  },
+  "model_evaluation": {
+    "enabled": true,
+    "provider": "claude-cli:sonnet",
+    "model": "claude-cli:sonnet",
+    "masking_applied": false
+  },
+  "artifacts": [
+    {
+      "path": "artifacts/screenshot.png",
+      "sha256": "f6d4c4ff096bb910b570d27657a4f97831ddcc7fc4e3de8ae8c602547dd20b31"
+    }
+  ],
+  "evaluation": {
+    "file": "evaluation.json",
+    "sha256": "ef8748d856fce1d829c1d66afc3fe13684a20aadc51c5b72660ea9de9c09d4b6"
+  }
+}
