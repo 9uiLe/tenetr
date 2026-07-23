@@ -2,6 +2,7 @@ import { Command, CommanderError } from "commander";
 import { runCaptureCommand } from "./commands/capture.js";
 import { runEvaluate } from "./commands/evaluate.js";
 import { runInit } from "./commands/init.js";
+import { runReport } from "./commands/report.js";
 import { runResolve } from "./commands/resolve.js";
 import { runValidate } from "./commands/validate.js";
 import type { ExitCode } from "./exit-codes.js";
@@ -110,6 +111,47 @@ export async function run(
               ? { modelTransport: options.modelTransport }
               : {}),
             confidenceThreshold: Number(options.confidenceThreshold),
+          },
+          io,
+        );
+      },
+    );
+
+  program
+    .command("report")
+    .description(
+      "generate a JSON or HTML report from an evaluation (§10.6, §17)",
+    )
+    .requiredOption("--evaluation <file>", "evaluation.json")
+    .requiredOption("--intent <file>", "design intent contract json")
+    .requiredOption("--artifacts <dir>", "capture output directory")
+    .requiredOption("--out <file>", "output path")
+    .option("--format <format>", "json | html", "html")
+    .option("--pack-version <version>", "philosophy pack version to display")
+    .option("--before <file>", "before screenshot to embed")
+    .action(
+      (options: {
+        evaluation: string;
+        intent: string;
+        artifacts: string;
+        out: string;
+        format: string;
+        packVersion?: string;
+        before?: string;
+      }) => {
+        exitCode = runReport(
+          options.evaluation,
+          options.intent,
+          options.artifacts,
+          options.out,
+          {
+            format: options.format,
+            ...(options.packVersion !== undefined
+              ? { packVersion: options.packVersion }
+              : {}),
+            ...(options.before !== undefined
+              ? { beforeImage: options.before }
+              : {}),
           },
           io,
         );

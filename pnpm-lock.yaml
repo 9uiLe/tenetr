@@ -111,6 +111,10 @@ importers:
       '@tenetr/spec':
         specifier: workspace:*
         version: link:../spec
+    devDependencies:
+      '@types/node':
+        specifier: 26.1.1
+        version: 26.1.1
 
   packages/spec:
     devDependencies:

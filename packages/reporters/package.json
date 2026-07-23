@@ -18,5 +18,8 @@
   "dependencies": {
     "@tenetr/spec": "workspace:*",
     "@tenetr/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.1"
   }
 }
