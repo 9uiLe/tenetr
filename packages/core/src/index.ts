@@ -1,5 +1,6 @@
 export const HARNESS_VERSION = "0.1.0";
 
+export { validateEvaluationDocument } from "./evaluation/validate.js";
 export type {
   ResolveFailure,
   ResolveOutcome,
