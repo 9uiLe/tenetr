@@ -15,15 +15,17 @@ tenetr は **Design Philosophy Harness** の参照実装。プロダクト固有
 
 設計指示書 §6–§7 が確定させている構成(変更には Decision Record が必要):
 
-- **pnpm workspace monorepo**。中核は TypeScript。Swift は iOS 固有の成果物取得アダプター(XCUITest)に限定し、Harness の中核を Swift 専用にしない。
-- パッケージ構成(目標形。実装は Phase 順に増える):
-  - `schemas/` — 4種 JSON Schema(philosophy-pack / design-intent / evaluation / run-manifest)
-  - `packages/core/` — Pack Loader、Context Resolver、Intent Compiler、Evaluator 基盤、Report Generator
-  - `packages/cli/` — `design-harness` CLI(init / validate / resolve / capture / evaluate / report / replay)
-  - `packages/ios-adapter/` — XCUITest 起動・スクリーンショット・Accessibility Tree 取得
-  - `skills/` — Agent Skills(SKILL.md + scripts)、Claude Code / Codex アダプター
-  - `examples/num-path/` — サンプル Philosophy Pack と検証シナリオ
-  - `.github/workflows/` — reusable design-review workflow + CI
+- **pnpm workspace monorepo**。中核は TypeScript。Swift は iOS 固有の成果物取得アダプターに限定し、Harness の中核を Swift 専用にしない。技術スタックの確定値と拘束は `docs/adr/0001-technology-stack.md` が正。
+- パッケージ構成と依存方向(consumer → dependency のみ許可。逆流・循環は禁止):
+  - `packages/spec` — 4種 JSON Schema(`schemas/` が正典)と生成 TS 型。依存なし
+  - `packages/core` — Pack Loader、Context Resolver、Intent Compiler → spec
+  - `packages/evaluators` — Deterministic / Model / Human の 3層 Evaluator → spec, core
+  - `packages/reporters` — JSON / HTML レポート生成 → spec, core
+  - `packages/ios-adapter` — シナリオ起動・スクリーンショット・Accessibility Tree 取得 → spec
+  - `packages/cli` — `design-harness` CLI(init / validate / resolve / capture / evaluate / report / replay)→ 上記すべて
+  - `skills/`(Agent Skills + Claude Code / Codex アダプター)と `examples/num-path/`(サンプル Pack・シナリオ証拠)は workspace 外・ビルド対象外
+  - `.github/workflows/` — reusable design-review workflow + CI(Phase 7)
+- exit code 0-4 のマッピングは cli 内の単一モジュールに集約する(ADR-0001 拘束 2)。テストは `test/unit|contract|golden/` のディレクトリで 3 層に区別する。
 - 評価は3層に分離: **Deterministic**(CI を Fail にできる唯一の層)/ **Model-based**(MVP では Warn または Human Review 止まり。モデル評価のみで CI を落とさない)/ **Human-only**。
 - `validate` の終了コード契約: 0=有効, 1=スキーマ違反, 2=参照切れ, 3=意味的矛盾, 4=実行環境エラー。
 - モデル評価の出力は JSON Schema で強制する(自由文をレポートへ大量転載しない)。
