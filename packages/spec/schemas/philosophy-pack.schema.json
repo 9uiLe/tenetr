@@ -1,0 +1,309 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/9uiLe/tenetr/schemas/philosophy-pack.schema.json",
+  "title": "Philosophy Pack",
+  "description": "Pack manifest and component documents. Each component file is validated against the corresponding $defs entry.",
+  "type": "object",
+  "$defs": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^1\\.\\d+$"
+    },
+    "principleId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
+    },
+    "exemplarId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "severity": {
+      "enum": ["fail", "warn"]
+    },
+    "verdict": {
+      "enum": ["pass", "warn", "fail", "unknown", "human_review"]
+    },
+    "packManifest": {
+      "type": "object",
+      "required": ["schema_version", "product", "files"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": { "$ref": "#/$defs/schemaVersion" },
+        "product": {
+          "type": "object",
+          "required": ["id", "name", "philosophy_version"],
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "name": { "type": "string", "minLength": 1 },
+            "philosophy_version": { "type": "string", "minLength": 1 }
+          }
+        },
+        "files": {
+          "type": "object",
+          "required": ["principles", "exemplars", "expected_judgments"],
+          "additionalProperties": false,
+          "properties": {
+            "principles": { "type": "string" },
+            "exemplars": { "type": "string" },
+            "expected_judgments": { "type": "string" },
+            "tradeoffs": { "type": "string" },
+            "anti_patterns": { "type": "string" },
+            "rubrics": { "type": "string" },
+            "decisions": { "type": "string" },
+            "scenarios": { "type": "string" },
+            "tokens": { "type": "string" }
+          }
+        },
+        "locale": { "type": "string" }
+      }
+    },
+    "principlesDocument": {
+      "type": "object",
+      "required": ["schema_version", "principles"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": { "$ref": "#/$defs/schemaVersion" },
+        "principles": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "items": { "$ref": "#/$defs/principle" }
+        }
+      }
+    },
+    "principle": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "statement",
+        "rationale",
+        "severity",
+        "observable_signals",
+        "checks"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/principleId" },
+        "title": { "type": "string", "minLength": 1 },
+        "statement": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "severity": { "$ref": "#/$defs/severity" },
+        "observable_signals": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "checks": {
+          "type": "object",
+          "required": ["deterministic", "model"],
+          "additionalProperties": false,
+          "properties": {
+            "deterministic": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["id", "expect"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+                  "expect": { "type": "string", "minLength": 1 }
+                }
+              }
+            },
+            "model": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "exemplars": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "supports": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/exemplarId" }
+            },
+            "violates": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/exemplarId" }
+            }
+          }
+        }
+      }
+    },
+    "exemplarsDocument": {
+      "type": "object",
+      "required": ["schema_version", "exemplars"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": { "$ref": "#/$defs/schemaVersion" },
+        "exemplars": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/exemplar" }
+        }
+      }
+    },
+    "exemplar": {
+      "type": "object",
+      "required": [
+        "id",
+        "status",
+        "artifact",
+        "scenario",
+        "principles",
+        "rationale"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/exemplarId" },
+        "status": { "enum": ["accepted", "rejected"] },
+        "synthetic": { "type": "boolean" },
+        "artifact": { "type": "string", "minLength": 1 },
+        "scenario": { "type": "string", "minLength": 1 },
+        "principles": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "supports": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/principleId" }
+            },
+            "violates": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/principleId" }
+            }
+          }
+        },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "expectedJudgmentsDocument": {
+      "type": "object",
+      "required": ["schema_version", "cases"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": { "$ref": "#/$defs/schemaVersion" },
+        "cases": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/judgmentCase" }
+        }
+      }
+    },
+    "judgmentCase": {
+      "type": "object",
+      "required": [
+        "exemplar",
+        "principle",
+        "expected_verdict",
+        "case_class",
+        "rationale"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "exemplar": { "$ref": "#/$defs/exemplarId" },
+        "principle": { "$ref": "#/$defs/principleId" },
+        "expected_verdict": { "$ref": "#/$defs/verdict" },
+        "case_class": {
+          "enum": [
+            "clear-pass",
+            "clear-fail",
+            "boundary",
+            "principle-conflict",
+            "insufficient-info",
+            "ai-slop",
+            "plausible-but-off"
+          ]
+        },
+        "rationale": { "type": "string", "minLength": 1 }
+      }
+    },
+    "tradeoffsDocument": {
+      "type": "object",
+      "required": ["tradeoffs"],
+      "additionalProperties": false,
+      "properties": {
+        "tradeoffs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "principles", "default_preference"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+              "principles": {
+                "type": "array",
+                "minItems": 2,
+                "items": { "$ref": "#/$defs/principleId" }
+              },
+              "default_preference": {
+                "type": "object",
+                "required": ["principle"],
+                "additionalProperties": false,
+                "properties": {
+                  "principle": { "$ref": "#/$defs/principleId" }
+                }
+              },
+              "override_when": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "human_review_when": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "antiPatternsDocument": {
+      "type": "object",
+      "required": ["anti_patterns"],
+      "additionalProperties": false,
+      "properties": {
+        "anti_patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "description", "severity", "detection"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "$ref": "#/$defs/principleId" },
+              "description": { "type": "string", "minLength": 1 },
+              "severity": { "$ref": "#/$defs/severity" },
+              "examples": {
+                "type": "array",
+                "items": { "$ref": "#/$defs/exemplarId" }
+              },
+              "detection": {
+                "type": "object",
+                "required": ["deterministic", "model"],
+                "additionalProperties": false,
+                "properties": {
+                  "deterministic": { "type": "boolean" },
+                  "model": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/packManifest" },
+    { "$ref": "#/$defs/principlesDocument" },
+    { "$ref": "#/$defs/exemplarsDocument" },
+    { "$ref": "#/$defs/expectedJudgmentsDocument" },
+    { "$ref": "#/$defs/tradeoffsDocument" },
+    { "$ref": "#/$defs/antiPatternsDocument" }
+  ]
+}

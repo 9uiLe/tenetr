@@ -10,9 +10,20 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "schemas"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "codegen": "node scripts/generate-types.mjs",
+    "codegen:check": "node scripts/generate-types.mjs --check"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "26.1.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "json-schema-to-typescript": "15.0.4",
+    "yaml": "2.9.0"
   }
 }

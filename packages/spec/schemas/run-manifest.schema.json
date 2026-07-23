@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/9uiLe/tenetr/schemas/run-manifest.schema.json",
+  "title": "Run Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "started_at",
+    "completed_at",
+    "versions",
+    "source",
+    "task",
+    "intent",
+    "capture",
+    "model_evaluation",
+    "artifacts",
+    "evaluation"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "fileRef": {
+      "type": "object",
+      "required": ["file", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "file": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\.\\d+$" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "versions": {
+      "type": "object",
+      "required": ["philosophy_pack", "philosophy_pack_sha256", "harness"],
+      "additionalProperties": false,
+      "properties": {
+        "philosophy_pack": { "type": "string", "minLength": 1 },
+        "philosophy_pack_sha256": { "$ref": "#/$defs/sha256" },
+        "harness": { "type": "string", "minLength": 1 },
+        "skill": { "type": "string" },
+        "rubric": { "type": "string" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["repository", "commit", "dirty"],
+      "additionalProperties": false,
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{7,40}$" },
+        "dirty": { "type": "boolean" }
+      }
+    },
+    "task": { "$ref": "#/$defs/fileRef" },
+    "intent": { "$ref": "#/$defs/fileRef" },
+    "capture": {
+      "type": "object",
+      "required": ["scenario"],
+      "additionalProperties": false,
+      "properties": {
+        "scenario": { "type": "string", "minLength": 1 },
+        "device": { "type": "string" },
+        "os": { "type": "string" },
+        "locale": { "type": "string" },
+        "appearance": { "enum": ["light", "dark"] },
+        "dynamic_type": { "type": "string" }
+      }
+    },
+    "model_evaluation": {
+      "type": "object",
+      "required": ["enabled"],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "provider": { "type": "string" },
+        "model": { "type": "string" },
+        "masking_applied": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "enabled": { "const": true } },
+            "required": ["enabled"]
+          },
+          "then": { "required": ["provider", "model", "masking_applied"] }
+        }
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "sha256": { "$ref": "#/$defs/sha256" }
+        }
+      }
+    },
+    "evaluation": { "$ref": "#/$defs/fileRef" }
+  }
+}
