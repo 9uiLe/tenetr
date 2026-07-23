@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { run } from "../../src/index.js";
 
+const silentIo = { out: () => {}, err: () => {} };
+
 describe("cli entry contract", () => {
-  it("exposes an argv-based entry returning a numeric exit code", async () => {
-    const code = await run(["--placeholder"]);
-    expect(typeof code).toBe("number");
+  it("returns exit 4 for an unknown option instead of commander's default 1", async () => {
+    const code = await run(["--placeholder"], silentIo);
+    expect(code).toBe(4);
   });
 });

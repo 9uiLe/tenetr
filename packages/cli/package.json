@@ -20,7 +20,8 @@
     "@tenetr/core": "workspace:*",
     "@tenetr/evaluators": "workspace:*",
     "@tenetr/reporters": "workspace:*",
-    "@tenetr/ios-adapter": "workspace:*"
+    "@tenetr/ios-adapter": "workspace:*",
+    "commander": "15.0.0"
   },
   "bin": {
     "design-harness": "./dist/bin.js"

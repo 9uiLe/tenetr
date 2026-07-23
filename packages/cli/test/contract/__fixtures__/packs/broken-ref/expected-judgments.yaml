@@ -1,0 +1,7 @@
+schema_version: "1.0"
+cases:
+  - exemplar: sample-ghost
+    principle: focus.single-primary-decision
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 主操作が1つ。
