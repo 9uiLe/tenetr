@@ -8,6 +8,7 @@ describe("spec package", () => {
       "design-intent",
       "evaluation",
       "run-manifest",
+      "ui-snapshot",
     ]);
   });
 });

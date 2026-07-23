@@ -4,3 +4,4 @@ export type { PhilosophyPack } from "./philosophy-pack.js";
 export type { DesignIntentContract } from "./design-intent.js";
 export type { EvaluationResult } from "./evaluation.js";
 export type { RunManifest } from "./run-manifest.js";
+export type { UISnapshot } from "./ui-snapshot.js";

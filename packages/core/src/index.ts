@@ -7,6 +7,8 @@ export type {
   TaskOpenQuestion,
 } from "./intent/resolve.js";
 export { resolveIntent } from "./intent/resolve.js";
+export type { ScenarioDefinition } from "./pack/scenarios.js";
+export { loadScenarios } from "./pack/scenarios.js";
 export type {
   ValidationIssue,
   ValidationResult,
