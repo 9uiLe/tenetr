@@ -1,0 +1,5 @@
+# CI 用の信頼済み capture プロファイル (Pack 外に置く — ADR-0005 Q1)
+profiles:
+  default:
+    command: ["node", "examples/num-path/ci/copy-before.mjs"]
+    timeout_seconds: 60

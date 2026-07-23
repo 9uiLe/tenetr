@@ -1,0 +1,21 @@
+# tenetr 自身での dogfooding: 例 Pack の変更時に reusable workflow を実行する (§18.1)。
+# capture は #3 で取得済みの committed before 画像を用いる (シミュレータ不要で ubuntu 実行可)。
+name: design-review-example
+
+on:
+  pull_request:
+    paths:
+      - "examples/num-path/design-philosophy/**"
+      - "examples/num-path/task.yaml"
+      - "packages/**"
+  workflow_dispatch:
+
+jobs:
+  example:
+    uses: ./.github/workflows/reusable-design-review.yml
+    with:
+      pack-dir: examples/num-path/design-philosophy
+      task-file: examples/num-path/task.yaml
+      scenario: completed
+      profiles-file: examples/num-path/ci-profiles.yaml
+      before-image: examples/num-path/scenarios/completed/before.png
