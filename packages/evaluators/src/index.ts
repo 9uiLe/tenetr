@@ -11,6 +11,10 @@ export type {
 } from "./context.js";
 export { flattenElements } from "./context.js";
 export {
+  accessibilityLabelEvaluator,
+  tapTargetEvaluator,
+} from "./deterministic/accessibility.js";
+export {
   artifactPresenceEvaluator,
   primaryControlCountEvaluator,
   primaryStyleDistinctEvaluator,
