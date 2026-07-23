@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect workspace
+        id: detect
+        run: |
+          if [ -f pnpm-lock.yaml ]; then
+            echo "workspace=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "workspace=false" >> "$GITHUB_OUTPUT"
+            echo "No pnpm workspace on this ref; docs-only change passes trivially."
+          fi
+
+      - uses: pnpm/action-setup@v4
+        if: steps.detect.outputs.workspace == 'true'
+        with:
+          version: 10.4.1
+
+      - uses: actions/setup-node@v4
+        if: steps.detect.outputs.workspace == 'true'
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        if: steps.detect.outputs.workspace == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Check (build + lint + codegen freshness + tests)
+        if: steps.detect.outputs.workspace == 'true'
+        run: pnpm check
