@@ -1,0 +1,28 @@
+schema_version: "1.0"
+principles:
+  - id: focus.single-primary-decision
+    title: 主判断を1つに限定する
+    statement: 各画面は主判断を1つだけ提示する。
+    rationale: 主操作が複数あると判断が遅れる。
+    severity: fail
+    observable_signals:
+      - 主操作スタイルのコントロールが1つだけ存在する
+    checks:
+      deterministic:
+        - id: primary-control-count
+          expect: "== 1"
+      model:
+        - 主操作が一意に認識できるか
+    exemplars:
+      supports: [sample-good]
+  - id: information.minimal-first-view
+    title: 情報は必要最小限にする
+    statement: 初期表示は必要最小限にする。
+    rationale: 情報過多は判断を遅らせる。
+    severity: warn
+    observable_signals:
+      - 初期表示が必須要素のみ
+    checks:
+      deterministic: []
+      model:
+        - 不要な情報ブロックがないか
