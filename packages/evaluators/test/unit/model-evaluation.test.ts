@@ -1,0 +1,140 @@
+import { describe, expect, it } from "vitest";
+import type {
+  BuilderArtifacts,
+  BuilderIntent,
+  ModelEvaluationRequest,
+  PackModelData,
+  ProviderTransport,
+} from "../../src/index.js";
+import { buildModelRequests, runModelEvaluation } from "../../src/index.js";
+
+const pack: PackModelData = {
+  principles: [
+    {
+      id: "focus.single-primary-decision",
+      title: "主判断を1つに限定する",
+      statement: "s",
+      rationale: "r",
+      observable_signals: ["sig"],
+      checks: { model: ["主操作が一意に認識できるか"] },
+      exemplars: { supports: ["good-a"], violates: ["bad-a"] },
+    },
+    {
+      id: "consistency.use-established-components",
+      title: "t",
+      statement: "s",
+      rationale: "r",
+      observable_signals: ["sig"],
+      checks: { model: [] },
+    },
+  ],
+  exemplars: [
+    {
+      id: "good-a",
+      status: "accepted",
+      artifact: "accepted/good-a.png",
+      rationale: "良い",
+    },
+    {
+      id: "bad-a",
+      status: "rejected",
+      artifact: "rejected/bad-a.png",
+      rationale: "悪い",
+    },
+    {
+      id: "other",
+      status: "accepted",
+      artifact: "accepted/other.png",
+      rationale: "無関係",
+    },
+  ],
+};
+
+const sha = "b".repeat(64);
+const artifacts: BuilderArtifacts = {
+  afterImage: { path: "/tmp/after.png", sha256: sha },
+  exemplarImage: (id) => ({ path: `/packs/${id}.png`, sha256: sha }),
+};
+
+const intent: BuilderIntent = {
+  task: { description: "d", scenario: "completed" },
+  constraints: ["完了の事実を残す"],
+  applicablePrincipleIds: [
+    "focus.single-primary-decision",
+    "consistency.use-established-components",
+  ],
+};
+
+const stubTransport = (
+  respond: (r: ModelEvaluationRequest) => unknown,
+): ProviderTransport => ({
+  id: "stub",
+  send: (r) => Promise.resolve(respond(r)),
+});
+
+describe("buildModelRequests", () => {
+  it("creates one request per principle that declares model checks", () => {
+    const requests = buildModelRequests(pack, intent, artifacts);
+    expect(requests).toHaveLength(1);
+    expect(requests[0]?.principle.id).toBe("focus.single-primary-decision");
+  });
+
+  it("includes only the exemplar images referenced by the principle", () => {
+    const request = buildModelRequests(pack, intent, artifacts)[0];
+    const ids = request?.images.map((i) => i.id);
+    expect(ids).toEqual(["after", "exemplar-good-a", "exemplar-bad-a"]);
+  });
+});
+
+describe("runModelEvaluation", () => {
+  const requests = buildModelRequests(pack, intent, artifacts);
+
+  it("returns a model finding from a schema-conformant response", async () => {
+    const transport = stubTransport(() => ({
+      verdict: "warn",
+      confidence: 0.9,
+      observations: [{ type: "visual", fact: "副操作が目立つ" }],
+      judgment: "副操作の重みが高い",
+      evidence_regions: [{ x: 0.1, y: 0.8, width: 0.8, height: 0.1 }],
+    }));
+    const findings = await runModelEvaluation(requests, transport, {
+      confidenceThreshold: 0.7,
+    });
+    expect(findings[0]?.verdict).toBe("warn");
+    expect(findings[0]?.kind).toBe("model");
+    expect(findings[0]?.evidence?.[0]?.type).toBe("image_region");
+  });
+
+  it("escalates to human_review below the confidence threshold (§12.4)", async () => {
+    const transport = stubTransport(() => ({
+      verdict: "pass",
+      confidence: 0.5,
+      observations: [{ type: "visual", fact: "判断が難しい" }],
+      judgment: "おそらく問題ない",
+    }));
+    const findings = await runModelEvaluation(requests, transport, {
+      confidenceThreshold: 0.7,
+    });
+    expect(findings[0]?.verdict).toBe("human_review");
+  });
+
+  it("returns unknown instead of repairing a schema-violating response", async () => {
+    const transport = stubTransport(() => ({ verdict: "fail", confidence: 2 }));
+    const findings = await runModelEvaluation(requests, transport, {
+      confidenceThreshold: 0.7,
+    });
+    expect(findings[0]?.verdict).toBe("unknown");
+    expect(findings[0]?.confidence).toBe(0);
+  });
+
+  it("returns unknown when the transport call fails", async () => {
+    const transport: ProviderTransport = {
+      id: "stub",
+      send: () => Promise.reject(new Error("network down")),
+    };
+    const findings = await runModelEvaluation(requests, transport, {
+      confidenceThreshold: 0.7,
+    });
+    expect(findings[0]?.verdict).toBe("unknown");
+  });
+});
