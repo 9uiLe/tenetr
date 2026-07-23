@@ -1,0 +1,168 @@
+# 期待判定ケース (Issue #2, ADR-0003 Q3)。人間ラベルの ground truth であり CI 出力ではない。
+# expected_verdict は §13.1 の5値 (pass / warn / fail / unknown / human_review)。
+# case_class は §19.4 の分類 (clear-pass / clear-fail / boundary / principle-conflict /
+# insufficient-info / ai-slop / plausible-but-off)。
+# 6 exemplar x 5 principle = 30 ケースを全て明示する (疎にしない)。
+schema_version: "1.0"
+
+cases:
+  # --- completion-screen-v3 (accepted) ---
+  - exemplar: completion-screen-v3
+    principle: focus.single-primary-decision
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: filled の主操作が1つだけ存在し、副導線はテキストリンク。
+  - exemplar: completion-screen-v3
+    principle: information.minimal-first-view
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 完了の事実・連続記録・主操作+リンク1点のみ。
+  - exemplar: completion-screen-v3
+    principle: expression.no-artificial-excitement
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 背景無地。装飾は静的なチェックのみ。
+  - exemplar: completion-screen-v3
+    principle: consistency.use-established-components
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: シェル標準のカード・ボタンのみで構成。
+  - exemplar: completion-screen-v3
+    principle: brand.expression-within-usability
+    expected_verdict: pass
+    case_class: boundary
+    rationale: ブランド表現は乏しいが操作性を妨げる要素はない。表現の少なさ自体はこの原則の違反ではない。
+
+  # --- completion-screen-v4 (accepted) ---
+  - exemplar: completion-screen-v4
+    principle: focus.single-primary-decision
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 主操作1つ+開示行のみ。開示行は視覚的重みが弱い。
+  - exemplar: completion-screen-v4
+    principle: information.minimal-first-view
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 補助情報が「詳細を見る」の背後に畳まれている。
+  - exemplar: completion-screen-v4
+    principle: expression.no-artificial-excitement
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 装飾なし。
+  - exemplar: completion-screen-v4
+    principle: consistency.use-established-components
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: シェル標準コンポーネントのみ。
+  - exemplar: completion-screen-v4
+    principle: brand.expression-within-usability
+    expected_verdict: pass
+    case_class: boundary
+    rationale: ブランド要素は無いが操作性への侵食も無い。
+
+  # --- completion-screen-v5 (accepted) ---
+  - exemplar: completion-screen-v5
+    principle: focus.single-primary-decision
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: アクセント変更は達成表示のみで、主操作は1つのまま。
+  - exemplar: completion-screen-v5
+    principle: information.minimal-first-view
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: v3 と同一の最小構成。
+  - exemplar: completion-screen-v5
+    principle: expression.no-artificial-excitement
+    expected_verdict: pass
+    case_class: boundary
+    rationale: アクセント色は静的で、演出的な誇張ではない。
+  - exemplar: completion-screen-v5
+    principle: consistency.use-established-components
+    expected_verdict: unknown
+    case_class: insufficient-info
+    rationale: アクセント色がトークン由来か画面独自かは画像だけでは判定できない。トークン定義との照合が必要。
+  - exemplar: completion-screen-v5
+    principle: brand.expression-within-usability
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: アクセントは達成表示に限定され、主操作・本文の可読性は維持。
+
+  # --- completion-screen-v1 (rejected) ---
+  - exemplar: completion-screen-v1
+    principle: focus.single-primary-decision
+    expected_verdict: fail
+    case_class: clear-fail
+    rationale: 同格の filled CTA が2つ並び、主判断が競合している。
+  - exemplar: completion-screen-v1
+    principle: information.minimal-first-view
+    expected_verdict: warn
+    case_class: boundary
+    rationale: 情報要素自体は最小だが、装飾ノイズが初期視界の判断材料を汚している。
+  - exemplar: completion-screen-v1
+    principle: expression.no-artificial-excitement
+    expected_verdict: fail
+    case_class: ai-slop
+    rationale: 紙吹雪と全面グラデーションが情報より強く、達成感を人工的に誇張。
+  - exemplar: completion-screen-v1
+    principle: consistency.use-established-components
+    expected_verdict: warn
+    case_class: boundary
+    rationale: ボタン形状は標準だが、シェア CTA の色がパレット外。
+  - exemplar: completion-screen-v1
+    principle: brand.expression-within-usability
+    expected_verdict: unknown
+    case_class: insufficient-info
+    rationale: 派手な演出がブランド表現の意図かどうかは画像だけでは判定できない。
+  # --- completion-screen-v2 (rejected) ---
+  - exemplar: completion-screen-v2
+    principle: focus.single-primary-decision
+    expected_verdict: warn
+    case_class: principle-conflict
+    rationale: 主操作は1つだが情報過多に埋もれて認識が遅れる。focus と minimal-first-view の緊張が同時に現れる境界事例。
+  - exemplar: completion-screen-v2
+    principle: information.minimal-first-view
+    expected_verdict: fail
+    case_class: clear-fail
+    rationale: 統計・ランキング・宣伝・設定が初期表示に並び、意思決定に不要な情報が支配的。
+  - exemplar: completion-screen-v2
+    principle: expression.no-artificial-excitement
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 演出的誇張はない(問題は情報量)。
+  - exemplar: completion-screen-v2
+    principle: consistency.use-established-components
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 各要素は標準コンポーネントの範囲内。
+  - exemplar: completion-screen-v2
+    principle: brand.expression-within-usability
+    expected_verdict: pass
+    case_class: boundary
+    rationale: ブランド表現による操作性侵食はない(宣伝カードは情報過多側の問題)。
+
+  # --- completion-screen-v6 (rejected) ---
+  - exemplar: completion-screen-v6
+    principle: focus.single-primary-decision
+    expected_verdict: pass
+    case_class: plausible-but-off
+    rationale: 主操作は1つで focus 自体は満たす。一見この原則の違反に見えるが、問題は consistency/brand 側にある。
+  - exemplar: completion-screen-v6
+    principle: information.minimal-first-view
+    expected_verdict: pass
+    case_class: clear-pass
+    rationale: 情報構成は v3 と同一の最小構成。
+  - exemplar: completion-screen-v6
+    principle: expression.no-artificial-excitement
+    expected_verdict: warn
+    case_class: ai-slop
+    rationale: ネオン発光・グラデ塗りは価値と無関係な視覚的誇張。
+  - exemplar: completion-screen-v6
+    principle: consistency.use-established-components
+    expected_verdict: fail
+    case_class: clear-fail
+    rationale: この画面専用の変形ボタン・不揃いな角丸・破線枠で確立済みコンポーネントから逸脱。
+  - exemplar: completion-screen-v6
+    principle: brand.expression-within-usability
+    expected_verdict: warn
+    case_class: boundary
+    rationale: 装飾がテキストの可読性と操作の判別性を侵食している。

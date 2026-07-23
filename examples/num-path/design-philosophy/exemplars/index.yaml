@@ -1,0 +1,83 @@
+# Exemplar index (Issue #2, ADR-0003 Q1)。全6件は src/render-exemplars.mjs による
+# 合成モックアップであり、実プロダクトの画面・資産ではない(synthetic: true)。
+# 再現条件: 同一レンダラー・viewport 390x844 @2x・同一シェル。再生成はハッシュ同一。
+exemplars:
+  - id: completion-screen-v3
+    status: accepted
+    synthetic: true
+    artifact: accepted/completion-screen-v3.png
+    scenario: completed
+    principles:
+      supports:
+        - focus.single-primary-decision
+        - expression.no-artificial-excitement
+        - consistency.use-established-components
+    rationale: >
+      主操作(つづける)のみが filled で、副導線はテキストリンクへ後退。
+      完了の事実と連続記録が情報の主役で、背景は無地・装飾は静的な
+      チェックのみ。
+
+  - id: completion-screen-v4
+    status: accepted
+    synthetic: true
+    artifact: accepted/completion-screen-v4.png
+    scenario: completed
+    principles:
+      supports:
+        - information.minimal-first-view
+        - focus.single-primary-decision
+    rationale: >
+      初期表示は完了の事実・連続記録・主操作のみ。バッジ・統計は
+      「詳細を見る」開示行の背後にあり、初期視界の判断材料が最小。
+
+  - id: completion-screen-v5
+    status: accepted
+    synthetic: true
+    artifact: accepted/completion-screen-v5.png
+    scenario: completed
+    principles:
+      supports:
+        - brand.expression-within-usability
+        - focus.single-primary-decision
+    rationale: >
+      達成表示(チェック・連続記録)にのみブランドアクセント色を使用。
+      主操作の視認性・本文の可読性は標準のまま維持されている。
+
+  - id: completion-screen-v1
+    status: rejected
+    synthetic: true
+    artifact: rejected/completion-screen-v1.png
+    scenario: completed
+    principles:
+      violates:
+        - focus.single-primary-decision
+        - expression.no-artificial-excitement
+    rationale: >
+      同格の filled CTA が2つ並び主判断が競合。紙吹雪と強い
+      グラデーション背景が完了情報より目立つ。
+
+  - id: completion-screen-v2
+    status: rejected
+    synthetic: true
+    artifact: rejected/completion-screen-v2.png
+    scenario: completed
+    principles:
+      violates:
+        - information.minimal-first-view
+    rationale: >
+      バッジ列・統計グリッド・ランキング・リマインダー・宣伝カードが
+      初期表示に並び、次の行動の判断が情報に埋もれる。
+
+  - id: completion-screen-v6
+    status: rejected
+    synthetic: true
+    artifact: rejected/completion-screen-v6.png
+    scenario: completed
+    principles:
+      violates:
+        - consistency.use-established-components
+        - brand.expression-within-usability
+    rationale: >
+      この画面専用の変形ボタン(グラデ塗り・ネオン発光・独自枠)と
+      不揃いな角丸カードで確立済みコンポーネントから逸脱。装飾が
+      可読性を侵食している。
