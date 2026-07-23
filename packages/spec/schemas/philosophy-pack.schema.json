@@ -327,9 +327,12 @@
     },
     "tradeoffsDocument": {
       "type": "object",
-      "required": ["tradeoffs"],
+      "required": ["schema_version", "tradeoffs"],
       "additionalProperties": false,
       "properties": {
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
         "tradeoffs": {
           "type": "array",
           "items": {
@@ -377,9 +380,12 @@
     },
     "antiPatternsDocument": {
       "type": "object",
-      "required": ["anti_patterns"],
+      "required": ["schema_version", "anti_patterns"],
       "additionalProperties": false,
       "properties": {
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
         "anti_patterns": {
           "type": "array",
           "items": {

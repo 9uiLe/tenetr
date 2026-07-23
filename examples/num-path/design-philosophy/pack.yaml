@@ -10,5 +10,6 @@ files:
   exemplars: exemplars/index.yaml
   expected_judgments: expected-judgments.yaml
   scenarios: scenarios/index.yaml
+  anti_patterns: anti-patterns.yaml
 
 locale: ja-JP

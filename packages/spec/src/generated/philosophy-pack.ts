@@ -120,6 +120,7 @@ export interface JudgmentCase {
   rationale: string;
 }
 export interface TradeoffsDocument {
+  schema_version: SchemaVersion;
   tradeoffs: {
     id: string;
     /**
@@ -134,6 +135,7 @@ export interface TradeoffsDocument {
   }[];
 }
 export interface AntiPatternsDocument {
+  schema_version: SchemaVersion;
   anti_patterns: {
     id: PrincipleId;
     description: string;

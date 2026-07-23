@@ -31,10 +31,15 @@ interface LoadedPack {
   exemplars: ExemplarsShape;
   judgments: JudgmentsShape;
   scenarios?: ScenariosShape;
+  antiPatterns?: AntiPatternsShape;
 }
 
 interface ScenariosShape {
   scenarios: { id: string }[];
+}
+
+interface AntiPatternsShape {
+  anti_patterns: { id: string; examples?: string[] }[];
 }
 
 interface PackManifestShape {
@@ -114,6 +119,7 @@ interface LoadedRaw {
     exemplars: unknown;
     judgments: unknown;
     scenarios?: unknown;
+    antiPatterns?: unknown;
   };
 }
 
@@ -176,7 +182,18 @@ function loadPackFiles(
   const judgments = read("expected_judgments");
   const scenarios =
     typeof files.scenarios === "string" ? read("scenarios") : undefined;
-  return { raw: { manifest, principles, exemplars, judgments, scenarios } };
+  const antiPatterns =
+    typeof files.anti_patterns === "string" ? read("anti_patterns") : undefined;
+  return {
+    raw: {
+      manifest,
+      principles,
+      exemplars,
+      judgments,
+      scenarios,
+      antiPatterns,
+    },
+  };
 }
 
 function parseYamlFile(path: string, issues: ValidationIssue[]): unknown {
@@ -222,6 +239,9 @@ function validateSchemas(
   check("expectedJudgmentsDocument", raw.judgments, "expected_judgments");
   if (raw.scenarios !== undefined) {
     check("scenariosDocument", raw.scenarios, "scenarios");
+  }
+  if (raw.antiPatterns !== undefined) {
+    check("antiPatternsDocument", raw.antiPatterns, "anti_patterns");
   }
 }
 
@@ -281,6 +301,19 @@ function validateReferences(
           file: "exemplars",
           path: `${exemplar.id}.scenario`,
           message: `unknown scenario id: ${exemplar.scenario}`,
+        });
+      }
+    }
+  }
+
+  for (const antiPattern of pack.antiPatterns?.anti_patterns ?? []) {
+    for (const ref of antiPattern.examples ?? []) {
+      if (!exemplarIds.has(ref)) {
+        issues.push({
+          stage: "reference",
+          file: "anti_patterns",
+          path: `${antiPattern.id}.examples`,
+          message: `unknown exemplar id: ${ref}`,
         });
       }
     }

@@ -103,3 +103,61 @@ export function buildModelRequests(
   }
   return requests;
 }
+
+export interface AntiPatternData {
+  id: string;
+  description: string;
+  examples?: string[];
+  detection: { model: boolean };
+}
+
+// §12.3「却下例と同じ失敗を再発していないか」の比較リクエスト。principle と同じ
+// リクエスト形に写像し、finding の principle フィールドに anti-pattern id を載せる。
+export function buildAntiPatternRequests(
+  antiPatterns: AntiPatternData[],
+  exemplars: PackModelData["exemplars"],
+  intent: BuilderIntent,
+  artifacts: BuilderArtifacts,
+): ModelEvaluationRequest[] {
+  const requests: ModelEvaluationRequest[] = [];
+  for (const antiPattern of antiPatterns) {
+    if (!antiPattern.detection.model) continue;
+    const exampleIds = new Set(antiPattern.examples ?? []);
+    const images: ModelImage[] = [
+      { id: "after", purpose: "after", ...artifacts.afterImage },
+    ];
+    const requestExemplars: ModelEvaluationRequest["exemplars"] = [];
+    for (const exemplar of exemplars) {
+      if (!exampleIds.has(exemplar.id)) continue;
+      const image = artifacts.exemplarImage(exemplar.id);
+      if (!image) continue;
+      if (image.sha256 === artifacts.afterImage.sha256) continue;
+      const imageId = `exemplar-${exemplar.id}`;
+      images.push({ id: imageId, purpose: "exemplar-rejected", ...image });
+      requestExemplars.push({
+        id: exemplar.id,
+        status: "rejected",
+        rationale: exemplar.rationale,
+        imageId,
+      });
+    }
+    requests.push({
+      principle: {
+        id: antiPattern.id,
+        title: `Anti-pattern: ${antiPattern.id}`,
+        statement: antiPattern.description,
+        rationale: "過去に却下された失敗パターンの再発を防ぐ。",
+        observable_signals: [],
+        model_checks: [
+          "この anti-pattern と同じ失敗が after 画像に再発していないか、却下例と比較して判定する",
+        ],
+      },
+      task: intent.task,
+      constraints: intent.constraints ?? [],
+      exemplars: requestExemplars,
+      images,
+      responseSchema: MODEL_RESPONSE_SCHEMA,
+    });
+  }
+  return requests;
+}
