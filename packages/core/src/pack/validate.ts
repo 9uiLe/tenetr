@@ -30,6 +30,11 @@ interface LoadedPack {
   principles: PrinciplesShape;
   exemplars: ExemplarsShape;
   judgments: JudgmentsShape;
+  scenarios?: ScenariosShape;
+}
+
+interface ScenariosShape {
+  scenarios: { id: string }[];
 }
 
 interface PackManifestShape {
@@ -49,6 +54,7 @@ interface ExemplarEntry {
   id: string;
   status: "accepted" | "rejected";
   artifact: string;
+  scenario: string;
   principles: { supports?: string[]; violates?: string[] };
 }
 
@@ -107,6 +113,7 @@ interface LoadedRaw {
     principles: unknown;
     exemplars: unknown;
     judgments: unknown;
+    scenarios?: unknown;
   };
 }
 
@@ -167,7 +174,9 @@ function loadPackFiles(
   const principles = read("principles");
   const exemplars = read("exemplars");
   const judgments = read("expected_judgments");
-  return { raw: { manifest, principles, exemplars, judgments } };
+  const scenarios =
+    typeof files.scenarios === "string" ? read("scenarios") : undefined;
+  return { raw: { manifest, principles, exemplars, judgments, scenarios } };
 }
 
 function parseYamlFile(path: string, issues: ValidationIssue[]): unknown {
@@ -211,6 +220,9 @@ function validateSchemas(
   check("principlesDocument", raw.principles, "principles");
   check("exemplarsDocument", raw.exemplars, "exemplars");
   check("expectedJudgmentsDocument", raw.judgments, "expected_judgments");
+  if (raw.scenarios !== undefined) {
+    check("scenariosDocument", raw.scenarios, "scenarios");
+  }
 }
 
 function validateReferences(
@@ -257,6 +269,20 @@ function validateReferences(
         path: `${exemplar.id}.artifact`,
         message: `artifact file does not exist: ${exemplar.artifact}`,
       });
+    }
+  }
+
+  if (pack.scenarios) {
+    const scenarioIds = new Set(pack.scenarios.scenarios.map((s) => s.id));
+    for (const exemplar of pack.exemplars.exemplars) {
+      if (!scenarioIds.has(exemplar.scenario)) {
+        issues.push({
+          stage: "reference",
+          file: "exemplars",
+          path: `${exemplar.id}.scenario`,
+          message: `unknown scenario id: ${exemplar.scenario}`,
+        });
+      }
     }
   }
 

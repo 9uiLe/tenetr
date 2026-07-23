@@ -30,7 +30,8 @@ export type PackDocumentKind =
   | "exemplarsDocument"
   | "expectedJudgmentsDocument"
   | "tradeoffsDocument"
-  | "antiPatternsDocument";
+  | "antiPatternsDocument"
+  | "scenariosDocument";
 
 export function packDocumentRef(kind: PackDocumentKind): string {
   return `https://github.com/9uiLe/tenetr/schemas/philosophy-pack.schema.json#/$defs/${kind}`;

@@ -28,15 +28,26 @@
       "required": ["schema_version", "product", "files"],
       "additionalProperties": false,
       "properties": {
-        "schema_version": { "$ref": "#/$defs/schemaVersion" },
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
         "product": {
           "type": "object",
           "required": ["id", "name", "philosophy_version"],
           "additionalProperties": false,
           "properties": {
-            "id": { "type": "string", "minLength": 1 },
-            "name": { "type": "string", "minLength": 1 },
-            "philosophy_version": { "type": "string", "minLength": 1 }
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "philosophy_version": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         },
         "files": {
@@ -44,18 +55,38 @@
           "required": ["principles", "exemplars", "expected_judgments"],
           "additionalProperties": false,
           "properties": {
-            "principles": { "type": "string" },
-            "exemplars": { "type": "string" },
-            "expected_judgments": { "type": "string" },
-            "tradeoffs": { "type": "string" },
-            "anti_patterns": { "type": "string" },
-            "rubrics": { "type": "string" },
-            "decisions": { "type": "string" },
-            "scenarios": { "type": "string" },
-            "tokens": { "type": "string" }
+            "principles": {
+              "type": "string"
+            },
+            "exemplars": {
+              "type": "string"
+            },
+            "expected_judgments": {
+              "type": "string"
+            },
+            "tradeoffs": {
+              "type": "string"
+            },
+            "anti_patterns": {
+              "type": "string"
+            },
+            "rubrics": {
+              "type": "string"
+            },
+            "decisions": {
+              "type": "string"
+            },
+            "scenarios": {
+              "type": "string"
+            },
+            "tokens": {
+              "type": "string"
+            }
           }
         },
-        "locale": { "type": "string" }
+        "locale": {
+          "type": "string"
+        }
       }
     },
     "principlesDocument": {
@@ -63,12 +94,16 @@
       "required": ["schema_version", "principles"],
       "additionalProperties": false,
       "properties": {
-        "schema_version": { "$ref": "#/$defs/schemaVersion" },
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
         "principles": {
           "type": "array",
           "minItems": 1,
           "maxItems": 5,
-          "items": { "$ref": "#/$defs/principle" }
+          "items": {
+            "$ref": "#/$defs/principle"
+          }
         }
       }
     },
@@ -85,15 +120,31 @@
       ],
       "additionalProperties": false,
       "properties": {
-        "id": { "$ref": "#/$defs/principleId" },
-        "title": { "type": "string", "minLength": 1 },
-        "statement": { "type": "string", "minLength": 1 },
-        "rationale": { "type": "string", "minLength": 1 },
-        "severity": { "$ref": "#/$defs/severity" },
+        "id": {
+          "$ref": "#/$defs/principleId"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "$ref": "#/$defs/severity"
+        },
         "observable_signals": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "checks": {
           "type": "object",
@@ -107,14 +158,23 @@
                 "required": ["id", "expect"],
                 "additionalProperties": false,
                 "properties": {
-                  "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-                  "expect": { "type": "string", "minLength": 1 }
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9-]*$"
+                  },
+                  "expect": {
+                    "type": "string",
+                    "minLength": 1
+                  }
                 }
               }
             },
             "model": {
               "type": "array",
-              "items": { "type": "string", "minLength": 1 }
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
             }
           }
         },
@@ -124,11 +184,15 @@
           "properties": {
             "supports": {
               "type": "array",
-              "items": { "$ref": "#/$defs/exemplarId" }
+              "items": {
+                "$ref": "#/$defs/exemplarId"
+              }
             },
             "violates": {
               "type": "array",
-              "items": { "$ref": "#/$defs/exemplarId" }
+              "items": {
+                "$ref": "#/$defs/exemplarId"
+              }
             }
           }
         }
@@ -139,11 +203,15 @@
       "required": ["schema_version", "exemplars"],
       "additionalProperties": false,
       "properties": {
-        "schema_version": { "$ref": "#/$defs/schemaVersion" },
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
         "exemplars": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/exemplar" }
+          "items": {
+            "$ref": "#/$defs/exemplar"
+          }
         }
       }
     },
@@ -159,11 +227,23 @@
       ],
       "additionalProperties": false,
       "properties": {
-        "id": { "$ref": "#/$defs/exemplarId" },
-        "status": { "enum": ["accepted", "rejected"] },
-        "synthetic": { "type": "boolean" },
-        "artifact": { "type": "string", "minLength": 1 },
-        "scenario": { "type": "string", "minLength": 1 },
+        "id": {
+          "$ref": "#/$defs/exemplarId"
+        },
+        "status": {
+          "enum": ["accepted", "rejected"]
+        },
+        "synthetic": {
+          "type": "boolean"
+        },
+        "artifact": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scenario": {
+          "type": "string",
+          "minLength": 1
+        },
         "principles": {
           "type": "object",
           "additionalProperties": false,
@@ -172,16 +252,23 @@
             "supports": {
               "type": "array",
               "minItems": 1,
-              "items": { "$ref": "#/$defs/principleId" }
+              "items": {
+                "$ref": "#/$defs/principleId"
+              }
             },
             "violates": {
               "type": "array",
               "minItems": 1,
-              "items": { "$ref": "#/$defs/principleId" }
+              "items": {
+                "$ref": "#/$defs/principleId"
+              }
             }
           }
         },
-        "rationale": { "type": "string", "minLength": 1 }
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "expectedJudgmentsDocument": {
@@ -189,11 +276,15 @@
       "required": ["schema_version", "cases"],
       "additionalProperties": false,
       "properties": {
-        "schema_version": { "$ref": "#/$defs/schemaVersion" },
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
         "cases": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/judgmentCase" }
+          "items": {
+            "$ref": "#/$defs/judgmentCase"
+          }
         }
       }
     },
@@ -208,9 +299,15 @@
       ],
       "additionalProperties": false,
       "properties": {
-        "exemplar": { "$ref": "#/$defs/exemplarId" },
-        "principle": { "$ref": "#/$defs/principleId" },
-        "expected_verdict": { "$ref": "#/$defs/verdict" },
+        "exemplar": {
+          "$ref": "#/$defs/exemplarId"
+        },
+        "principle": {
+          "$ref": "#/$defs/principleId"
+        },
+        "expected_verdict": {
+          "$ref": "#/$defs/verdict"
+        },
         "case_class": {
           "enum": [
             "clear-pass",
@@ -222,7 +319,10 @@
             "plausible-but-off"
           ]
         },
-        "rationale": { "type": "string", "minLength": 1 }
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "tradeoffsDocument": {
@@ -237,27 +337,38 @@
             "required": ["id", "principles", "default_preference"],
             "additionalProperties": false,
             "properties": {
-              "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
               "principles": {
                 "type": "array",
                 "minItems": 2,
-                "items": { "$ref": "#/$defs/principleId" }
+                "items": {
+                  "$ref": "#/$defs/principleId"
+                }
               },
               "default_preference": {
                 "type": "object",
                 "required": ["principle"],
                 "additionalProperties": false,
                 "properties": {
-                  "principle": { "$ref": "#/$defs/principleId" }
+                  "principle": {
+                    "$ref": "#/$defs/principleId"
+                  }
                 }
               },
               "override_when": {
                 "type": "array",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               },
               "human_review_when": {
                 "type": "array",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -276,22 +387,123 @@
             "required": ["id", "description", "severity", "detection"],
             "additionalProperties": false,
             "properties": {
-              "id": { "$ref": "#/$defs/principleId" },
-              "description": { "type": "string", "minLength": 1 },
-              "severity": { "$ref": "#/$defs/severity" },
+              "id": {
+                "$ref": "#/$defs/principleId"
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1
+              },
+              "severity": {
+                "$ref": "#/$defs/severity"
+              },
               "examples": {
                 "type": "array",
-                "items": { "$ref": "#/$defs/exemplarId" }
+                "items": {
+                  "$ref": "#/$defs/exemplarId"
+                }
               },
               "detection": {
                 "type": "object",
                 "required": ["deterministic", "model"],
                 "additionalProperties": false,
                 "properties": {
-                  "deterministic": { "type": "boolean" },
-                  "model": { "type": "boolean" }
+                  "deterministic": {
+                    "type": "boolean"
+                  },
+                  "model": {
+                    "type": "boolean"
+                  }
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    "scenariosDocument": {
+      "type": "object",
+      "required": ["schema_version", "scenarios"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "$ref": "#/$defs/schemaVersion"
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/scenario"
+          }
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "capture_profile",
+        "required_artifacts",
+        "reproduction",
+        "environment"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/exemplarId"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capture_profile": {
+          "description": "Profile ID resolved from trusted consumer-side configuration. Packs must not declare executable commands (ADR-0005 Q1).",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "required_artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reproduction": {
+          "type": "object",
+          "required": ["method"],
+          "additionalProperties": false,
+          "properties": {
+            "method": {
+              "enum": ["launch-argument", "deep-link", "xcuitest"]
+            },
+            "ready_signal": {
+              "enum": ["accessibility-identifier", "fixed-delay", "none"]
+            },
+            "notes": {
+              "type": "string"
+            }
+          }
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "type": "string"
+            },
+            "os": {
+              "type": "string"
+            },
+            "locale": {
+              "type": "string"
+            },
+            "appearance": {
+              "enum": ["light", "dark"]
+            },
+            "dynamic_type": {
+              "type": "string"
             }
           }
         }
@@ -299,11 +511,26 @@
     }
   },
   "oneOf": [
-    { "$ref": "#/$defs/packManifest" },
-    { "$ref": "#/$defs/principlesDocument" },
-    { "$ref": "#/$defs/exemplarsDocument" },
-    { "$ref": "#/$defs/expectedJudgmentsDocument" },
-    { "$ref": "#/$defs/tradeoffsDocument" },
-    { "$ref": "#/$defs/antiPatternsDocument" }
+    {
+      "$ref": "#/$defs/packManifest"
+    },
+    {
+      "$ref": "#/$defs/principlesDocument"
+    },
+    {
+      "$ref": "#/$defs/exemplarsDocument"
+    },
+    {
+      "$ref": "#/$defs/expectedJudgmentsDocument"
+    },
+    {
+      "$ref": "#/$defs/tradeoffsDocument"
+    },
+    {
+      "$ref": "#/$defs/antiPatternsDocument"
+    },
+    {
+      "$ref": "#/$defs/scenariosDocument"
+    }
   ]
 }

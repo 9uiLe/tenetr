@@ -10,7 +10,8 @@ export type PhilosophyPack =
   | ExemplarsDocument
   | ExpectedJudgmentsDocument
   | TradeoffsDocument
-  | AntiPatternsDocument;
+  | AntiPatternsDocument
+  | ScenariosDocument;
 export type SchemaVersion = string;
 export type PrincipleId = string;
 export type Severity = "fail" | "warn";
@@ -143,4 +144,35 @@ export interface AntiPatternsDocument {
       model: boolean;
     };
   }[];
+}
+export interface ScenariosDocument {
+  schema_version: SchemaVersion;
+  /**
+   * @minItems 1
+   */
+  scenarios: [Scenario, ...Scenario[]];
+}
+export interface Scenario {
+  id: ExemplarId;
+  description: string;
+  /**
+   * Profile ID resolved from trusted consumer-side configuration. Packs must not declare executable commands (ADR-0005 Q1).
+   */
+  capture_profile: string;
+  /**
+   * @minItems 1
+   */
+  required_artifacts: [string, ...string[]];
+  reproduction: {
+    method: "launch-argument" | "deep-link" | "xcuitest";
+    ready_signal?: "accessibility-identifier" | "fixed-delay" | "none";
+    notes?: string;
+  };
+  environment: {
+    device?: string;
+    os?: string;
+    locale?: string;
+    appearance?: "light" | "dark";
+    dynamic_type?: string;
+  };
 }

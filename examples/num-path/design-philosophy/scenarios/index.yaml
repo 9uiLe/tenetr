@@ -1,0 +1,23 @@
+# Scenario 定義 (Issue #10, ADR-0005 Q1)。実行コマンドは Pack に置かず、
+# capture_profile ID を利用者側の信頼済み設定で解決する(任意コード実行の遮断)。
+schema_version: "1.0"
+
+scenarios:
+  - id: completed
+    description: 日次パズル完了画面(当日の全ラウンド完了直後の状態)
+    capture_profile: default
+    required_artifacts:
+      - screenshot.png
+    reproduction:
+      method: launch-argument
+      ready_signal: accessibility-identifier
+      notes: >
+        アプリ既存のシナリオ注入機構でシナリオ ID を指定して Debug ビルドを
+        起動し、画面 ready を示す accessibility identifier の出現を待ってから
+        取得する。テストデータは Debug ビルド限定で本番処理から分離されている。
+    environment:
+      device: iphone-simulator
+      os: iOS 26
+      locale: ja-JP
+      appearance: light
+      dynamic_type: default

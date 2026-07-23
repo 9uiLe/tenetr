@@ -1,7 +1,7 @@
 # 0002: MVP の評価対象は num-path 日次完了画面、改善タスクは初期表示の削減と主操作の明確化
 
 - Date: 2026-07-23
-- Status: proposed(Human-only 決定。ユーザーの採用承認をもって accepted に更新する)
+- Status: accepted(2026-07-24。「CI green なら PR マージ可」のユーザー包括承認の下で PR #40 をマージ。個別異議があれば superseded で差し替える)
 - Issue: #1
 
 ## Context
