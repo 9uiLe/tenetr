@@ -1,4 +1,5 @@
 import { Command, CommanderError } from "commander";
+import { runInit } from "./commands/init.js";
 import { runValidate } from "./commands/validate.js";
 import type { ExitCode } from "./exit-codes.js";
 import { EXIT_CODES } from "./exit-codes.js";
@@ -18,6 +19,14 @@ export async function run(
     .configureOutput({
       writeOut: (text) => io.out(text.trimEnd()),
       writeErr: (text) => io.err(text.trimEnd()),
+    });
+
+  program
+    .command("init")
+    .description("generate a design-philosophy/ scaffold (§10.1)")
+    .option("--dir <dir>", "parent directory for the scaffold", ".")
+    .action((options: { dir: string }) => {
+      exitCode = runInit(options.dir, io);
     });
 
   program
