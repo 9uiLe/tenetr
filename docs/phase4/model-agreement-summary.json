@@ -1,0 +1,22 @@
+{
+  "model": "sonnet",
+  "runs": 3,
+  "measured_calls": 90,
+  "cases_with_model_check": 30,
+  "exact_match": "65.6% (59/90)",
+  "binary_match_pass_vs_attention": "84.4% (76/90)",
+  "fail_or_warn_missed_as_pass": "0.0% (0/27)",
+  "false_alarm_on_expected_pass": "14.0% (8/57)",
+  "abstention_rate": "5.6% (5/90)",
+  "unstable_cases_across_runs": "30.0% (9/30)",
+  "confusion": {
+    "pass->pass": 45,
+    "pass->unknown": 4,
+    "pass->warn": 8,
+    "unknown->pass": 2,
+    "unknown->warn": 4,
+    "fail->warn": 12,
+    "warn->warn": 14,
+    "warn->unknown": 1
+  }
+}
