@@ -1,0 +1,816 @@
+{
+  "model": "sonnet",
+  "runs": 3,
+  "results": [
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "focus.single-primary-decision",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "focus.single-primary-decision",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "focus.single-primary-decision",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "information.minimal-first-view",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "information.minimal-first-view",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.95
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "information.minimal-first-view",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.92
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "expression.no-artificial-excitement",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "expression.no-artificial-excitement",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.92
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "expression.no-artificial-excitement",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.93
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "consistency.use-established-components",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "consistency.use-established-components",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "consistency.use-established-components",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "brand.expression-within-usability",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "unknown",
+      "confidence": 0
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "brand.expression-within-usability",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v3",
+      "principle": "brand.expression-within-usability",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "focus.single-primary-decision",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "warn",
+      "confidence": 0.78
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "focus.single-primary-decision",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "warn",
+      "confidence": 0.62
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "focus.single-primary-decision",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "warn",
+      "confidence": 0.68
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "information.minimal-first-view",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "information.minimal-first-view",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "information.minimal-first-view",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "expression.no-artificial-excitement",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "unknown",
+      "confidence": 0
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "expression.no-artificial-excitement",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "expression.no-artificial-excitement",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.94
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "consistency.use-established-components",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "consistency.use-established-components",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.78
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "consistency.use-established-components",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.72
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "brand.expression-within-usability",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "brand.expression-within-usability",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v4",
+      "principle": "brand.expression-within-usability",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.82
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "focus.single-primary-decision",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.93
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "focus.single-primary-decision",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.93
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "focus.single-primary-decision",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.94
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "information.minimal-first-view",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.94
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "information.minimal-first-view",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "information.minimal-first-view",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "expression.no-artificial-excitement",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "expression.no-artificial-excitement",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "expression.no-artificial-excitement",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "consistency.use-established-components",
+      "run": 1,
+      "expected": "unknown",
+      "case_class": "insufficient-info",
+      "got": "pass",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "consistency.use-established-components",
+      "run": 2,
+      "expected": "unknown",
+      "case_class": "insufficient-info",
+      "got": "pass",
+      "confidence": 0.87
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "consistency.use-established-components",
+      "run": 3,
+      "expected": "unknown",
+      "case_class": "insufficient-info",
+      "got": "warn",
+      "confidence": 0.75
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "brand.expression-within-usability",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "unknown",
+      "confidence": 0
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "brand.expression-within-usability",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v5",
+      "principle": "brand.expression-within-usability",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.87
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "focus.single-primary-decision",
+      "run": 1,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "focus.single-primary-decision",
+      "run": 2,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "focus.single-primary-decision",
+      "run": 3,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "information.minimal-first-view",
+      "run": 1,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.7
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "information.minimal-first-view",
+      "run": 2,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.7
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "information.minimal-first-view",
+      "run": 3,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.78
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "expression.no-artificial-excitement",
+      "run": 1,
+      "expected": "fail",
+      "case_class": "ai-slop",
+      "got": "warn",
+      "confidence": 0.93
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "expression.no-artificial-excitement",
+      "run": 2,
+      "expected": "fail",
+      "case_class": "ai-slop",
+      "got": "warn",
+      "confidence": 0.92
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "expression.no-artificial-excitement",
+      "run": 3,
+      "expected": "fail",
+      "case_class": "ai-slop",
+      "got": "warn",
+      "confidence": 0.92
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "consistency.use-established-components",
+      "run": 1,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "consistency.use-established-components",
+      "run": 2,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "consistency.use-established-components",
+      "run": 3,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "focus.single-primary-decision",
+      "run": 2,
+      "expected": "warn",
+      "case_class": "principle-conflict",
+      "got": "unknown",
+      "confidence": 0
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "brand.expression-within-usability",
+      "run": 1,
+      "expected": "unknown",
+      "case_class": "insufficient-info",
+      "got": "warn",
+      "confidence": 0.7
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "brand.expression-within-usability",
+      "run": 2,
+      "expected": "unknown",
+      "case_class": "insufficient-info",
+      "got": "warn",
+      "confidence": 0.75
+    },
+    {
+      "exemplar": "completion-screen-v1",
+      "principle": "brand.expression-within-usability",
+      "run": 3,
+      "expected": "unknown",
+      "case_class": "insufficient-info",
+      "got": "warn",
+      "confidence": 0.7
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "focus.single-primary-decision",
+      "run": 1,
+      "expected": "warn",
+      "case_class": "principle-conflict",
+      "got": "warn",
+      "confidence": 0.78
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "focus.single-primary-decision",
+      "run": 3,
+      "expected": "warn",
+      "case_class": "principle-conflict",
+      "got": "warn",
+      "confidence": 0.78
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "information.minimal-first-view",
+      "run": 1,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.92
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "information.minimal-first-view",
+      "run": 2,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.93
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "information.minimal-first-view",
+      "run": 3,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.97
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "expression.no-artificial-excitement",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "warn",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "expression.no-artificial-excitement",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "expression.no-artificial-excitement",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "unknown",
+      "confidence": 0
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "consistency.use-established-components",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.75
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "consistency.use-established-components",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "warn",
+      "confidence": 0.55
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "consistency.use-established-components",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "warn",
+      "confidence": 0.65
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "brand.expression-within-usability",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.75
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "brand.expression-within-usability",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "pass",
+      "confidence": 0.78
+    },
+    {
+      "exemplar": "completion-screen-v2",
+      "principle": "brand.expression-within-usability",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.72
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "focus.single-primary-decision",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "plausible-but-off",
+      "got": "warn",
+      "confidence": 0.74
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "focus.single-primary-decision",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "plausible-but-off",
+      "got": "pass",
+      "confidence": 0.82
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "focus.single-primary-decision",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "plausible-but-off",
+      "got": "pass",
+      "confidence": 0.8
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "information.minimal-first-view",
+      "run": 1,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "information.minimal-first-view",
+      "run": 2,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "information.minimal-first-view",
+      "run": 3,
+      "expected": "pass",
+      "case_class": "clear-pass",
+      "got": "pass",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "expression.no-artificial-excitement",
+      "run": 1,
+      "expected": "warn",
+      "case_class": "ai-slop",
+      "got": "warn",
+      "confidence": 0.9
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "expression.no-artificial-excitement",
+      "run": 2,
+      "expected": "warn",
+      "case_class": "ai-slop",
+      "got": "warn",
+      "confidence": 0.85
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "expression.no-artificial-excitement",
+      "run": 3,
+      "expected": "warn",
+      "case_class": "ai-slop",
+      "got": "warn",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "consistency.use-established-components",
+      "run": 1,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.88
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "consistency.use-established-components",
+      "run": 2,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.92
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "consistency.use-established-components",
+      "run": 3,
+      "expected": "fail",
+      "case_class": "clear-fail",
+      "got": "warn",
+      "confidence": 0.93
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "brand.expression-within-usability",
+      "run": 1,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.78
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "brand.expression-within-usability",
+      "run": 2,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.82
+    },
+    {
+      "exemplar": "completion-screen-v6",
+      "principle": "brand.expression-within-usability",
+      "run": 3,
+      "expected": "warn",
+      "case_class": "boundary",
+      "got": "warn",
+      "confidence": 0.85
+    }
+  ]
+}
