@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-84a7f5d3349c",
+  "summary": {
+    "deterministic": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 1
+    },
+    "model": {
+      "pass": 0,
+      "warn": 0,
+      "unknown": 0
+    },
+    "human_review": 0
+  },
+  "findings": [
+    {
+      "id": "finding-artifact-presence",
+      "evaluator": "artifact-presence",
+      "check": "required-artifacts-present",
+      "kind": "deterministic",
+      "verdict": "pass",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "必要成果物がすべて存在する (screenshot.png)"
+        }
+      ],
+      "judgment": "capture 成果物は完全"
+    },
+    {
+      "id": "finding-primary-control-count",
+      "evaluator": "primary-control-count",
+      "principle": "focus.single-primary-decision",
+      "check": "primary-control-count",
+      "kind": "deterministic",
+      "verdict": "pass",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "primary trait を持つボタンが 1 個 (ボタン総数 2)"
+        }
+      ],
+      "judgment": "主操作は1つに限定されている"
+    },
+    {
+      "id": "finding-primary-style-distinct",
+      "evaluator": "primary-secondary-style-distinct",
+      "principle": "focus.single-primary-decision",
+      "check": "primary-secondary-style-distinct",
+      "kind": "deterministic",
+      "verdict": "pass",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "primary と同等サイズの競合ボタンは存在しない"
+        }
+      ],
+      "judgment": "副操作の視覚的重みは primary より弱い"
+    },
+    {
+      "id": "finding-required-elements",
+      "evaluator": "required-elements-present",
+      "check": "required-elements-present",
+      "kind": "deterministic",
+      "verdict": "unknown",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "scenario に required_element_identifiers が宣言されていない"
+        }
+      ],
+      "judgment": "必須要素の機械的対応付けが未宣言のため判定不能"
+    },
+    {
+      "id": "finding-accessibility-label",
+      "evaluator": "accessibility-label",
+      "check": "accessibility-label",
+      "kind": "deterministic",
+      "verdict": "pass",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "全対話要素 (2) に accessibility label がある"
+        }
+      ],
+      "judgment": "スクリーンリーダーで全対話要素へ到達できる"
+    },
+    {
+      "id": "finding-tap-target-size",
+      "evaluator": "tap-target-size",
+      "check": "tap-target-size",
+      "kind": "deterministic",
+      "verdict": "pass",
+      "observations": [
+        {
+          "type": "metadata",
+          "fact": "全タップ対象 (2) が 44pt 基準を満たす"
+        }
+      ],
+      "judgment": "タップ領域は操作基準を満たす"
+    }
+  ]
+}
