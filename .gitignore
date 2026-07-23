@@ -1,0 +1,6 @@
+# Local tool state
+.claude/settings.local.json
+.tokensave/
+
+# OS
+.DS_Store
