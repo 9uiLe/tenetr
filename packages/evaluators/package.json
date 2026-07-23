@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "@tenetr/spec": "workspace:*",
-    "@tenetr/core": "workspace:*"
+    "@tenetr/core": "workspace:*",
+    "ajv": "8.20.0"
   },
   "devDependencies": {
     "@types/node": "26.1.1"

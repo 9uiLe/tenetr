@@ -22,3 +22,19 @@ export {
   primaryStyleDistinctEvaluator,
   requiredElementsEvaluator,
 } from "./deterministic/metadata.js";
+export type {
+  BuilderArtifacts,
+  BuilderIntent,
+  PackModelData,
+} from "./model/builder.js";
+export { buildModelRequests } from "./model/builder.js";
+export type { ModelRunOptions } from "./model/evaluate.js";
+export { runModelEvaluation } from "./model/evaluate.js";
+export { MODEL_RESPONSE_SCHEMA } from "./model/response-schema.js";
+export type {
+  ModelEvaluationRequest,
+  ModelImage,
+  ModelImagePurpose,
+  ModelResponse,
+  ProviderTransport,
+} from "./model/transport.js";
