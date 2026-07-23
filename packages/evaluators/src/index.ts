@@ -23,11 +23,15 @@ export {
   requiredElementsEvaluator,
 } from "./deterministic/metadata.js";
 export type {
+  AntiPatternData,
   BuilderArtifacts,
   BuilderIntent,
   PackModelData,
 } from "./model/builder.js";
-export { buildModelRequests } from "./model/builder.js";
+export {
+  buildAntiPatternRequests,
+  buildModelRequests,
+} from "./model/builder.js";
 export type {
   EgressAudit,
   EgressImage,

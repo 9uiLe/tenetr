@@ -11,7 +11,11 @@ import type {
   PackModelData,
   ProviderTransport,
 } from "../../src/index.js";
-import { buildModelRequests, runModelEvaluation } from "../../src/index.js";
+import {
+  buildAntiPatternRequests,
+  buildModelRequests,
+  runModelEvaluation,
+} from "../../src/index.js";
 
 const pack: PackModelData = {
   principles: [
@@ -181,5 +185,47 @@ describe("runModelEvaluation", () => {
     };
     const findings = await runModelEvaluation(requests, transport, runOptions);
     expect(findings[0]?.verdict).toBe("unknown");
+  });
+});
+
+describe("buildAntiPatternRequests", () => {
+  it("creates a comparison request with the rejected example images", () => {
+    const requests = buildAntiPatternRequests(
+      [
+        {
+          id: "expression.artificial-excitement",
+          description: "過剰演出",
+          examples: ["bad-a"],
+          detection: { model: true },
+        },
+      ],
+      pack.exemplars,
+      intent,
+      artifacts,
+    );
+    expect(requests).toHaveLength(1);
+    expect(requests[0]?.principle.id).toBe("expression.artificial-excitement");
+    expect(requests[0]?.images.map((i) => i.id)).toEqual([
+      "after",
+      "exemplar-bad-a",
+    ]);
+    expect(requests[0]?.exemplars[0]?.status).toBe("rejected");
+  });
+
+  it("skips anti-patterns that declare no model detection", () => {
+    const requests = buildAntiPatternRequests(
+      [
+        {
+          id: "expression.artificial-excitement",
+          description: "d",
+          examples: ["bad-a"],
+          detection: { model: false },
+        },
+      ],
+      pack.exemplars,
+      intent,
+      artifacts,
+    );
+    expect(requests).toHaveLength(0);
   });
 });

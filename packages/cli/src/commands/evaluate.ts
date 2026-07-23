@@ -11,6 +11,7 @@ import type { EvaluationContext, ProviderTransport } from "@tenetr/evaluators";
 import {
   accessibilityLabelEvaluator,
   artifactPresenceEvaluator,
+  buildAntiPatternRequests,
   buildEvaluation,
   buildModelRequests,
   createClaudeCliTransport,
@@ -132,6 +133,21 @@ export async function runEvaluate(
       );
       return EXIT_CODES.environmentError;
     }
+    const builderArtifacts = {
+      afterImage: {
+        path: join(artifactsDir, "screenshot.png"),
+        sha256: afterEntry.sha256,
+      },
+      exemplarImage: (exemplarId: string) => {
+        const exemplar = content.exemplars.find((e) => e.id === exemplarId);
+        if (!exemplar || !existsSync(exemplar.artifactPath)) return undefined;
+        const bytes = readFileSync(exemplar.artifactPath);
+        return {
+          path: exemplar.artifactPath,
+          sha256: createHash("sha256").update(bytes).digest("hex"),
+        };
+      },
+    };
     const requests = buildModelRequests(
       {
         principles: content.principles,
@@ -145,21 +161,22 @@ export async function runEvaluate(
         constraints: intent.constraints ?? [],
         applicablePrincipleIds: intent.applicable_principles.map((p) => p.id),
       },
-      {
-        afterImage: {
-          path: join(artifactsDir, "screenshot.png"),
-          sha256: afterEntry.sha256,
+      builderArtifacts,
+    );
+    requests.push(
+      ...buildAntiPatternRequests(
+        content.antiPatterns,
+        content.exemplars,
+        {
+          task: {
+            description: intent.task.description,
+            scenario: intent.task.scenario,
+          },
+          constraints: intent.constraints ?? [],
+          applicablePrincipleIds: intent.applicable_principles.map((p) => p.id),
         },
-        exemplarImage: (exemplarId) => {
-          const exemplar = content.exemplars.find((e) => e.id === exemplarId);
-          if (!exemplar || !existsSync(exemplar.artifactPath)) return undefined;
-          const bytes = readFileSync(exemplar.artifactPath);
-          return {
-            path: exemplar.artifactPath,
-            sha256: createHash("sha256").update(bytes).digest("hex"),
-          };
-        },
-      },
+        builderArtifacts,
+      ),
     );
     const audits: unknown[] = [];
     const modelFindings = await runModelEvaluation(requests, transport, {

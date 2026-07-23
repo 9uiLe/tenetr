@@ -1,0 +1,13 @@
+# Anti-pattern 定義 (Issue #19, §8.3)。Pack 変更は Decision Record 必須 (AGENTS.md)。
+schema_version: "1.0"
+
+anti_patterns:
+  - id: expression.artificial-excitement
+    description: >
+      ユーザー価値と関係なく、グロー、紙吹雪、ネオン、強いグラデーション等で
+      達成感を誇張する。
+    severity: warn
+    examples: [completion-screen-v1, completion-screen-v6]
+    detection:
+      deterministic: false
+      model: true

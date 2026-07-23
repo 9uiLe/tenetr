@@ -12,6 +12,14 @@ export interface PackPrinciple {
   exemplars?: { supports?: string[]; violates?: string[] };
 }
 
+export interface PackAntiPattern {
+  id: string;
+  description: string;
+  severity: "fail" | "warn";
+  examples?: string[];
+  detection: { deterministic: boolean; model: boolean };
+}
+
 export interface PackExemplar {
   id: string;
   status: "accepted" | "rejected";
@@ -25,6 +33,7 @@ export interface PackExemplar {
 export function loadPackContent(packDir: string): {
   principles: PackPrinciple[];
   exemplars: PackExemplar[];
+  antiPatterns: PackAntiPattern[];
 } {
   const manifest = parse(readFileSync(join(packDir, "pack.yaml"), "utf8")) as {
     files: Record<string, string>;
@@ -41,7 +50,16 @@ export function loadPackContent(packDir: string): {
       "utf8",
     ),
   ) as { exemplars: Omit<PackExemplar, "artifactPath">[] };
+  const antiPatternsFile = manifest.files.anti_patterns;
+  const antiPatterns = antiPatternsFile
+    ? (
+        parse(readFileSync(join(packDir, antiPatternsFile), "utf8")) as {
+          anti_patterns: PackAntiPattern[];
+        }
+      ).anti_patterns
+    : [];
   return {
+    antiPatterns,
     principles: principlesDoc.principles,
     exemplars: exemplarsDoc.exemplars.map((exemplar) => ({
       ...exemplar,
