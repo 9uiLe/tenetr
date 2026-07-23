@@ -18,9 +18,11 @@
   "dependencies": {
     "@tenetr/spec": "workspace:*",
     "@tenetr/core": "workspace:*",
-    "ajv": "8.20.0"
+    "ajv": "8.20.0",
+    "pngjs": "7.0.0"
   },
   "devDependencies": {
-    "@types/node": "26.1.1"
+    "@types/node": "26.1.1",
+    "@types/pngjs": "6.0.5"
   }
 }

@@ -13,7 +13,8 @@
     "test:contract": "vitest run --project contract",
     "test:golden": "vitest run --project golden",
     "lint": "biome check .",
-    "check": "pnpm build && pnpm lint && pnpm -r run codegen:check && pnpm test"
+    "check": "pnpm build && pnpm lint && pnpm check:egress && pnpm -r run codegen:check && pnpm test",
+    "check:egress": "node scripts/check-egress-boundary.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
