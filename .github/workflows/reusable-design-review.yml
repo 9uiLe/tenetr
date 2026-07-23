@@ -1,0 +1,115 @@
+# §18 の reusable design review workflow。利用側リポジトリから workflow_call で呼び出す。
+# 注意 (ADR-0005 F-P6): Actions artifact はリポジトリの可視性を継承する。private アプリの
+# capture 成果物を扱う場合は private リポジトリから呼び出し、retention を短く設定すること。
+name: reusable-design-review
+
+on:
+  workflow_call:
+    inputs:
+      pack-dir:
+        description: "design-philosophy ディレクトリ"
+        required: true
+        type: string
+      task-file:
+        description: "task.yaml のパス"
+        required: true
+        type: string
+      scenario:
+        description: "scenario id"
+        required: true
+        type: string
+      profiles-file:
+        description: "信頼済み capture プロファイル (呼び出し側リポジトリ内)"
+        required: true
+        type: string
+      before-image:
+        description: "レポートに埋める before 画像 (任意)"
+        required: false
+        type: string
+        default: ""
+      artifact-retention-days:
+        description: "成果物の保持日数"
+        required: false
+        type: number
+        default: 14
+
+jobs:
+  design-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.4.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install and build harness
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Run design harness pipeline (deterministic evaluators)
+        id: harness
+        run: |
+          set +e
+          BEFORE_ARG=""
+          if [ -n "${{ inputs.before-image }}" ]; then
+            BEFORE_ARG="--before ${{ inputs.before-image }}"
+          fi
+          node packages/cli/dist/bin.js run \
+            --pack "${{ inputs.pack-dir }}" \
+            --task "${{ inputs.task-file }}" \
+            --scenario "${{ inputs.scenario }}" \
+            --profiles "${{ inputs.profiles-file }}" \
+            --out design-review-out \
+            $BEFORE_ARG
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Publish PR summary (§18.3)
+        if: always()
+        run: |
+          if [ -f design-review-out/evaluation.json ]; then
+            node -e '
+              const e = require("./design-review-out/evaluation.json");
+              const s = e.summary;
+              const gate = process.env.EXIT_CODE === "0" ? "PASS" : "FAIL";
+              const lines = [
+                "## Design Review: " + gate,
+                "",
+                "| layer | pass | fail/warn | unknown |",
+                "| --- | --- | --- | --- |",
+                `| deterministic | ${s.deterministic.pass} | ${s.deterministic.fail} | ${s.deterministic.unknown ?? 0} |`,
+                `| model | ${s.model.pass} | ${s.model.warn} | ${s.model.unknown ?? 0} |`,
+                "",
+                `Human Review: ${s.human_review} 件`,
+                "",
+                "report.html / evaluation.json / run-manifest.json は Actions artifact から取得。",
+              ];
+              require("node:fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join("\n") + "\n");
+            '
+          else
+            echo "## Design Review: 実行失敗 (evaluation 未生成)" >> "$GITHUB_STEP_SUMMARY"
+          fi
+        env:
+          EXIT_CODE: ${{ steps.harness.outputs.exit_code }}
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-review
+          path: design-review-out/
+          retention-days: ${{ inputs.artifact-retention-days }}
+
+      - name: Gate (§13.2 — deterministic fail のみ CI を停止)
+        run: |
+          if [ "${{ steps.harness.outputs.exit_code }}" != "0" ]; then
+            echo "deterministic gate FAIL (exit ${{ steps.harness.outputs.exit_code }})"
+            exit 1
+          fi

@@ -112,8 +112,12 @@ export async function runEvaluate(
 
   if (options.modelTransport) {
     let transport: ProviderTransport;
-    if (options.modelTransport === "claude-cli") {
-      transport = createClaudeCliTransport();
+    if (
+      options.modelTransport === "claude-cli" ||
+      options.modelTransport.startsWith("claude-cli:")
+    ) {
+      const model = options.modelTransport.split(":")[1];
+      transport = createClaudeCliTransport(model ? { model } : {});
     } else if (options.modelTransport.startsWith("module:")) {
       transport = await createModuleTransport(
         options.modelTransport.slice("module:".length),
