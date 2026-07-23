@@ -13,7 +13,7 @@
     "test:contract": "vitest run --project contract",
     "test:golden": "vitest run --project golden",
     "lint": "biome check .",
-    "check": "pnpm build && pnpm lint && pnpm test"
+    "check": "pnpm build && pnpm lint && pnpm -r run codegen:check && pnpm test"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",

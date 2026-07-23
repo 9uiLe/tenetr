@@ -1,6 +1,8 @@
 # Exemplar index (Issue #2, ADR-0003 Q1)。全6件は src/render-exemplars.mjs による
 # 合成モックアップであり、実プロダクトの画面・資産ではない(synthetic: true)。
 # 再現条件: 同一レンダラー・viewport 390x844 @2x・同一シェル。再生成はハッシュ同一。
+schema_version: "1.0"
+
 exemplars:
   - id: completion-screen-v3
     status: accepted

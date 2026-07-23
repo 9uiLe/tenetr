@@ -1,0 +1,13 @@
+schema_version: "1.0"
+
+product:
+  id: num-path
+  name: Num Path
+  philosophy_version: "0.1.0"
+
+files:
+  principles: principles.yaml
+  exemplars: exemplars/index.yaml
+  expected_judgments: expected-judgments.yaml
+
+locale: ja-JP
