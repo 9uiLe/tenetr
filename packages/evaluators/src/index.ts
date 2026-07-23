@@ -28,6 +28,13 @@ export type {
   PackModelData,
 } from "./model/builder.js";
 export { buildModelRequests } from "./model/builder.js";
+export type {
+  EgressAudit,
+  EgressImage,
+  EgressPolicy,
+  MaskRegion,
+} from "./model/egress.js";
+export { EgressBlockedError, prepareEgress } from "./model/egress.js";
 export type { ModelRunOptions } from "./model/evaluate.js";
 export { runModelEvaluation } from "./model/evaluate.js";
 export { MODEL_RESPONSE_SCHEMA } from "./model/response-schema.js";

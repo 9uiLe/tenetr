@@ -176,4 +176,13 @@ export interface Scenario {
     dynamic_type?: string;
   };
   required_element_identifiers?: string[];
+  /**
+   * Regions of the captured screenshot to blank before any external model egress (ADR-0005 Q3).
+   */
+  mask_regions?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }[];
 }

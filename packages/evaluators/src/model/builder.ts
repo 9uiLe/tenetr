@@ -65,6 +65,9 @@ export function buildModelRequests(
       if (!relevantIds.has(exemplar.id)) continue;
       const image = artifacts.exemplarImage(exemplar.id);
       if (!image) continue;
+      // Why not: 同一画像でも事例として送る方が入力は揃う | Reason: 評価対象と同一ハッシュの
+      // exemplar は正解ラベルの漏洩になる (#20 の測定を無効化する。ADR-0006 Q1)
+      if (image.sha256 === artifacts.afterImage.sha256) continue;
       const imageId = `exemplar-${exemplar.id}`;
       images.push({
         id: imageId,

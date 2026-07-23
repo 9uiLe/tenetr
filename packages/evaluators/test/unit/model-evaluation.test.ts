@@ -50,10 +50,11 @@ const pack: PackModelData = {
   ],
 };
 
-const sha = "b".repeat(64);
+const shaFor = (name: string): string =>
+  name.charCodeAt(0).toString(16).padStart(2, "0").repeat(32);
 const artifacts: BuilderArtifacts = {
-  afterImage: { path: "/tmp/after.png", sha256: sha },
-  exemplarImage: (id) => ({ path: `/packs/${id}.png`, sha256: sha }),
+  afterImage: { path: "/tmp/after.png", sha256: shaFor("A") },
+  exemplarImage: (id) => ({ path: `/packs/${id}.png`, sha256: shaFor(id) }),
 };
 
 const intent: BuilderIntent = {
@@ -83,6 +84,16 @@ describe("buildModelRequests", () => {
     const request = buildModelRequests(pack, intent, artifacts)[0];
     const ids = request?.images.map((i) => i.id);
     expect(ids).toEqual(["after", "exemplar-good-a", "exemplar-bad-a"]);
+  });
+
+  it("excludes exemplars whose image hash equals the evaluated image (label leakage, ADR-0006)", () => {
+    const leaky: BuilderArtifacts = {
+      afterImage: { path: "/packs/good-a.png", sha256: shaFor("good-a") },
+      exemplarImage: (id) => ({ path: `/packs/${id}.png`, sha256: shaFor(id) }),
+    };
+    const request = buildModelRequests(pack, intent, leaky)[0];
+    const ids = request?.images.map((i) => i.id);
+    expect(ids).toEqual(["after", "exemplar-bad-a"]);
   });
 });
 
