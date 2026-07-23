@@ -1,5 +1,6 @@
 import { Command, CommanderError } from "commander";
 import { runInit } from "./commands/init.js";
+import { runResolve } from "./commands/resolve.js";
 import { runValidate } from "./commands/validate.js";
 import type { ExitCode } from "./exit-codes.js";
 import { EXIT_CODES } from "./exit-codes.js";
@@ -35,6 +36,16 @@ export async function run(
     .requiredOption("--pack <dir>", "path to the design-philosophy directory")
     .action((options: { pack: string }) => {
       exitCode = runValidate(options.pack, io);
+    });
+
+  program
+    .command("resolve")
+    .description("resolve a task into a design intent contract (§10.3)")
+    .requiredOption("--pack <dir>", "path to the design-philosophy directory")
+    .requiredOption("--task <file>", "task definition yaml")
+    .requiredOption("--out <file>", "output path for intent.json")
+    .action((options: { pack: string; task: string; out: string }) => {
+      exitCode = runResolve(options.pack, options.task, options.out, io);
     });
 
   try {

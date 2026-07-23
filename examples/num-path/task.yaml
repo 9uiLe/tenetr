@@ -1,0 +1,16 @@
+# ADR-0002 の改善タスク定義 (§5.1 / §23.1 を実画面へ適応)
+schema_version: "1.0"
+id: declutter-completion-screen
+description: 日次完了画面の初期表示を必要最小限にし、次の行動が迷わず1つに定まるようにする。完了の事実と連続記録は残す。
+scenario: completed
+screen: 日次パズル完了画面
+
+keep:
+  - 完了の事実(ヘッダー)を残す
+  - 連続記録の表示を残す
+
+open_questions:
+  - id: reminder-placement
+    question: リマインダー導線を開示操作の背後へ移してよいか
+    blocking: false
+    default_answer: 開示の背後へ移す(minimal-first-view を優先)

@@ -7,7 +7,8 @@
       "*.ts",
       "!**/dist",
       "!**/node_modules",
-      "!**/src/generated"
+      "!**/src/generated",
+      "!**/__fixtures__"
     ]
   },
   "formatter": {
