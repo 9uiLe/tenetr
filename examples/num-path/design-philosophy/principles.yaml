@@ -1,0 +1,108 @@
+# Philosophy Pack 草案 (Issue #2, ADR-0002/0003)。§23.2 の 5 原則を §8.2 形式で具体化。
+# 対象シナリオ: completed (日次パズル完了画面)。Pack スキーマ検証は Phase 1 (#5/#7) で導入。
+schema_version: "1.0"
+
+principles:
+  - id: focus.single-primary-decision
+    title: 主判断を1つに限定する
+    statement: 各画面はユーザーに求める主判断を1つだけ提示する。
+    rationale: >
+      主操作が複数あると次に進む判断が遅れ、離脱と誤操作が増える。
+      日次完了画面では「次の行動」への導線1つだけが主判断である。
+    severity: fail
+    observable_signals:
+      - 主操作スタイル(filled/primary)のコントロールが画面に1つだけ存在する
+      - 副操作・設定類は視覚的重み(サイズ・塗り・彩度)が主操作より明確に弱い
+      - 最初の視線走査で主操作が最初に認識される
+    checks:
+      deterministic:
+        - id: primary-control-count
+          expect: "== 1"
+        - id: primary-secondary-style-distinct
+          expect: "== true"
+      model:
+        - 主操作が一意に認識できるか
+    exemplars:
+      supports: [completion-screen-v3]
+      violates: [completion-screen-v1]
+
+  - id: information.minimal-first-view
+    title: 情報は必要最小限にする
+    statement: 初期表示は意思決定に必要な情報のみとし、詳細は要求時に開示する。
+    rationale: >
+      完了画面の目的は達成の確認と次の行動への移行であり、
+      統計・バッジ・設定の羅列は主判断を遅らせるノイズになる。
+    severity: warn
+    observable_signals:
+      - 初期表示はタスク定義の必須要素(完了の事実・連続記録・主操作)+補助1点以内
+      - 追加情報・設定は明示的な開示操作(タップ)の背後にある
+    checks:
+      deterministic:
+        - id: required-elements-present
+          expect: "== true"
+          # Why not: 原則 severity (warn) に含めて扱うことも出来る | Reason: これはタスク定義の充足検査であり、ADR-0003 Q2-2 により原則 severity から独立したタスクゲートとして扱う
+      model:
+        - 初期表示に意思決定へ不要な情報ブロックがないか
+    exemplars:
+      supports: [completion-screen-v4]
+      violates: [completion-screen-v2]
+
+  - id: expression.no-artificial-excitement
+    title: 人工的な興奮演出を避ける
+    statement: >
+      ユーザー価値と無関係なグロー、紙吹雪、ネオン、強いグラデーション等で
+      達成感を誇張しない。
+    rationale: >
+      演出が情報より強いと主判断が埋もれ、プロダクトの落ち着いた性格を損なう。
+    severity: warn
+    observable_signals:
+      - 背景・装飾レイヤーの視覚的強度が情報レイヤーより弱い
+      - 達成演出は静的・短時間で、操作を遮らない
+    checks:
+      deterministic: []
+      model:
+        - AI特有の過剰装飾がないか
+        - 背景装飾が情報より強くないか
+    exemplars:
+      supports: [completion-screen-v3]
+      violates: [completion-screen-v1]
+
+  - id: consistency.use-established-components
+    title: 一貫したコンポーネントを利用する
+    statement: 既存のデザインシステムのコンポーネント・トークンを使い、画面独自の変種を作らない。
+    rationale: >
+      画面ごとの独自スタイルは学習コストと実装分岐を増やし、
+      哲学の機械評価も不可能にする。
+    severity: fail
+    observable_signals:
+      - ボタン・カード等が確立済みコンポーネントのスタイル定義と一致する
+      - 色・字形・角丸がトークン由来である(ハードコードがない)
+    checks:
+      deterministic:
+        - id: hardcoded-style-values
+          expect: "== 0"
+          # Why not: 即時に CI fail ゲート化することも出来る | Reason: ADR-0003 Q2-3 により現行コードの baseline dry-run と誤検知率測定を通過するまでゲート化しない
+      model:
+        - 確立済みコンポーネントの踏襲が視覚的に確認できるか
+    exemplars:
+      supports: [completion-screen-v3]
+      violates: [completion-screen-v6]
+
+  - id: brand.expression-within-usability
+    title: ブランドらしさは操作性を妨げない範囲で表現する
+    statement: ブランド表現はアクセント(色・形・モチーフ)に留め、操作性・可読性より優先しない。
+    rationale: >
+      ブランド表現が操作性と衝突した場合は操作性が勝つ。
+      らしさの根拠は装飾量ではなくトーンの一貫性に置く。
+    severity: warn
+    observable_signals:
+      - ブランドアクセントが主操作・本文の可読性を低下させていない
+      - ブランド要素がタップ領域・情報階層を侵食していない
+    checks:
+      deterministic: []
+      model:
+        - プロダクトらしさを損なう表現がないか
+        - ブランド表現が操作性を妨げていないか
+    exemplars:
+      supports: [completion-screen-v5]
+      violates: [completion-screen-v6]
