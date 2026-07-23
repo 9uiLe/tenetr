@@ -149,10 +149,23 @@ export async function runPipeline(
           masking_applied: maskingApplied,
         }
       : { enabled: false },
-    artifacts: captureManifest.artifacts.map((a) => ({
-      path: join("artifacts", a.path),
-      sha256: a.sha256,
-    })),
+    artifacts: [
+      ...captureManifest.artifacts.map((a) => ({
+        path: join("artifacts", a.path),
+        sha256: a.sha256,
+      })),
+      // Why not: capture 成果物のみでも §15 は成立し得る | Reason: §22.2 の「モデル情報と
+      // Prompt Hash が保存される」は egress 監査 (payload_sha256) が担うため、監査自体を
+      // Manifest の追跡対象に含めて replay の完全性検証下に置く
+      ...(existsSync(auditPath)
+        ? [
+            {
+              path: join("artifacts", "egress-audit.json"),
+              sha256: sha256File(auditPath),
+            },
+          ]
+        : []),
+    ],
     evaluation: { file: "evaluation.json", sha256: sha256File(evaluationFile) },
   };
   const manifestCheck = validateRunManifest(manifest);
