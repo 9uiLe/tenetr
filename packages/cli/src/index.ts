@@ -2,8 +2,10 @@ import { Command, CommanderError } from "commander";
 import { runCaptureCommand } from "./commands/capture.js";
 import { runEvaluate } from "./commands/evaluate.js";
 import { runInit } from "./commands/init.js";
+import { runReplay } from "./commands/replay.js";
 import { runReport } from "./commands/report.js";
 import { runResolve } from "./commands/resolve.js";
+import { runPipeline } from "./commands/run.js";
 import { runValidate } from "./commands/validate.js";
 import type { ExitCode } from "./exit-codes.js";
 import { EXIT_CODES } from "./exit-codes.js";
@@ -31,6 +33,68 @@ export async function run(
     .option("--dir <dir>", "parent directory for the scaffold", ".")
     .action((options: { dir: string }) => {
       exitCode = runInit(options.dir, io);
+    });
+
+  program
+    .command("run")
+    .description(
+      "resolve → capture → evaluate → report → manifest の一気通貫 (§10.7)",
+    )
+    .requiredOption("--pack <dir>", "path to the design-philosophy directory")
+    .requiredOption("--task <file>", "task definition yaml")
+    .requiredOption("--scenario <id>", "scenario id declared in the pack")
+    .requiredOption("--profiles <file>", "trusted capture profiles yaml")
+    .requiredOption("--out <dir>", "run output directory")
+    .option(
+      "--model-transport <spec>",
+      "claude-cli | module:<path> (default: off)",
+    )
+    .option(
+      "--confidence-threshold <n>",
+      "human_review escalation threshold",
+      "0.7",
+    )
+    .option("--before <file>", "before screenshot to embed in the report")
+    .action(
+      async (options: {
+        pack: string;
+        task: string;
+        scenario: string;
+        profiles: string;
+        out: string;
+        modelTransport?: string;
+        confidenceThreshold: string;
+        before?: string;
+      }) => {
+        exitCode = await runPipeline(
+          options.pack,
+          options.task,
+          options.out,
+          {
+            scenario: options.scenario,
+            profilesFile: options.profiles,
+            ...(options.modelTransport !== undefined
+              ? { modelTransport: options.modelTransport }
+              : {}),
+            confidenceThreshold: Number(options.confidenceThreshold),
+            ...(options.before !== undefined
+              ? { beforeImage: options.before }
+              : {}),
+          },
+          io,
+        );
+      },
+    );
+
+  program
+    .command("replay")
+    .description(
+      "保存済み Run を検証し評価のみ再実行して同一性を確認する (§15.3)",
+    )
+    .requiredOption("--manifest <file>", "run-manifest.json")
+    .requiredOption("--pack <dir>", "path to the design-philosophy directory")
+    .action(async (options: { manifest: string; pack: string }) => {
+      exitCode = await runReplay(options.manifest, options.pack, io);
     });
 
   program

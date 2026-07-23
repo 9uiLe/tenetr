@@ -8,12 +8,19 @@ export type {
   TaskOpenQuestion,
 } from "./intent/resolve.js";
 export { resolveIntent } from "./intent/resolve.js";
+export type { GitContext } from "./manifest/build.js";
+export {
+  gitContext,
+  packSha256,
+  sha256File,
+  validateRunManifest,
+} from "./manifest/build.js";
 export type {
   PackAntiPattern,
   PackExemplar,
   PackPrinciple,
 } from "./pack/content.js";
-export { loadPackContent } from "./pack/content.js";
+export { loadPackContent, loadPackVersion } from "./pack/content.js";
 export type { ScenarioDefinition } from "./pack/scenarios.js";
 export { loadScenarios } from "./pack/scenarios.js";
 export type {
