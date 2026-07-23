@@ -506,6 +506,13 @@
               "type": "string"
             }
           }
+        },
+        "required_element_identifiers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     }

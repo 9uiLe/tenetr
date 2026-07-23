@@ -1,5 +1,6 @@
 import { Command, CommanderError } from "commander";
 import { runCaptureCommand } from "./commands/capture.js";
+import { runEvaluate } from "./commands/evaluate.js";
 import { runInit } from "./commands/init.js";
 import { runResolve } from "./commands/resolve.js";
 import { runValidate } from "./commands/validate.js";
@@ -61,6 +62,38 @@ export async function run(
           options.scenario,
           options.profiles,
           options.out,
+          io,
+        );
+      },
+    );
+
+  program
+    .command("evaluate")
+    .description(
+      "run deterministic evaluators and gate the result (§10.5, §13)",
+    )
+    .requiredOption("--pack <dir>", "path to the design-philosophy directory")
+    .requiredOption("--intent <file>", "design intent contract json")
+    .requiredOption("--artifacts <dir>", "capture output directory")
+    .requiredOption("--out <file>", "output path for evaluation.json")
+    .option(
+      "--run-id <id>",
+      "run id (default: derived from capture manifest hash)",
+    )
+    .action(
+      (options: {
+        pack: string;
+        intent: string;
+        artifacts: string;
+        out: string;
+        runId?: string;
+      }) => {
+        exitCode = runEvaluate(
+          options.pack,
+          options.intent,
+          options.artifacts,
+          options.out,
+          options.runId,
           io,
         );
       },

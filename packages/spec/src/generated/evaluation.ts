@@ -39,6 +39,7 @@ export interface EvaluationResult {
     deterministic: {
       pass: number;
       fail: number;
+      unknown?: number;
     };
     model: {
       pass: number;

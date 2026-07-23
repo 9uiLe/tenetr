@@ -8,6 +8,7 @@ export interface ScenarioDefinition {
   capture_profile: string;
   required_artifacts: string[];
   reproduction: { method: string; ready_signal?: string; notes?: string };
+  required_element_identifiers?: string[];
   environment?: Record<string, string>;
 }
 

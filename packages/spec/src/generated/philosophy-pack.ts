@@ -175,4 +175,5 @@ export interface Scenario {
     appearance?: "light" | "dark";
     dynamic_type?: string;
   };
+  required_element_identifiers?: string[];
 }
