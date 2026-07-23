@@ -47,6 +47,22 @@ describe("philosophy pack schema vs example pack", () => {
     );
   });
 
+  it("accepts the committed scenarios document", () => {
+    const v = validator("scenariosDocument");
+    expect(v(loadYaml("scenarios/index.yaml")), JSON.stringify(v.errors)).toBe(
+      true,
+    );
+  });
+
+  it("rejects a scenario that declares an executable command instead of a profile id", () => {
+    const v = validator("scenariosDocument");
+    const doc = loadYaml("scenarios/index.yaml") as {
+      scenarios: Record<string, unknown>[];
+    };
+    if (doc.scenarios[0]) doc.scenarios[0].command = ["/bin/sh", "-c", "evil"];
+    expect(v(doc)).toBe(false);
+  });
+
   it("accepts the committed expected judgments", () => {
     const v = validator("expectedJudgmentsDocument");
     expect(
