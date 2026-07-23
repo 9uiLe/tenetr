@@ -1,4 +1,5 @@
 import { Command, CommanderError } from "commander";
+import { runCaptureCommand } from "./commands/capture.js";
 import { runInit } from "./commands/init.js";
 import { runResolve } from "./commands/resolve.js";
 import { runValidate } from "./commands/validate.js";
@@ -37,6 +38,33 @@ export async function run(
     .action((options: { pack: string }) => {
       exitCode = runValidate(options.pack, io);
     });
+
+  program
+    .command("capture")
+    .description("capture scenario artifacts via a trusted profile (§10.4)")
+    .requiredOption("--pack <dir>", "path to the design-philosophy directory")
+    .requiredOption("--scenario <id>", "scenario id declared in the pack")
+    .requiredOption(
+      "--profiles <file>",
+      "trusted capture profiles yaml (outside the pack)",
+    )
+    .requiredOption("--out <dir>", "output directory for artifacts")
+    .action(
+      (options: {
+        pack: string;
+        scenario: string;
+        profiles: string;
+        out: string;
+      }) => {
+        exitCode = runCaptureCommand(
+          options.pack,
+          options.scenario,
+          options.profiles,
+          options.out,
+          io,
+        );
+      },
+    );
 
   program
     .command("resolve")

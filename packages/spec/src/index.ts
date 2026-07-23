@@ -7,6 +7,7 @@ export const SCHEMA_IDS = [
   "design-intent",
   "evaluation",
   "run-manifest",
+  "ui-snapshot",
 ] as const;
 
 export type SchemaId = (typeof SCHEMA_IDS)[number];
@@ -42,4 +43,5 @@ export type {
   EvaluationResult,
   PhilosophyPack,
   RunManifest,
+  UISnapshot,
 } from "./generated/index.js";
