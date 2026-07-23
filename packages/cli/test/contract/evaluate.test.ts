@@ -190,6 +190,55 @@ describe("design-harness evaluate contract (§10.5, §13)", () => {
     expect(readFileSync(out1, "utf8")).toBe(readFileSync(out2, "utf8"));
   });
 
+  it("merges model findings via a module transport and never fails the gate on model warn (§13.2)", async () => {
+    const transportModule = join(tmp, "stub-transport.mjs");
+    writeFileSync(
+      transportModule,
+      `export default () => ({
+  id: "stub",
+  send: () => Promise.resolve({
+    verdict: "warn",
+    confidence: 0.9,
+    observations: [{ type: "visual", fact: "副操作の視覚的重みが高い" }],
+    judgment: "階層が Intent と部分的に不一致",
+    evidence_regions: [{ x: 0.1, y: 0.8, width: 0.8, height: 0.1 }],
+  }),
+});
+`,
+    );
+    const artifacts = join(tmp, "good");
+    const out = join(tmp, "model-evaluation.json");
+    await expect(
+      run(
+        [
+          "evaluate",
+          "--pack",
+          examplePack,
+          "--intent",
+          intentFile,
+          "--artifacts",
+          artifacts,
+          "--out",
+          out,
+          "--model-transport",
+          `module:${transportModule}`,
+        ],
+        silentIo,
+      ),
+    ).resolves.toBe(0);
+    const evaluation = JSON.parse(readFileSync(out, "utf8"));
+    expect(evaluation.summary.model.warn).toBeGreaterThan(0);
+    const modelFinding = evaluation.findings.find(
+      (f: { kind: string }) => f.kind === "model",
+    );
+    expect(modelFinding?.confidence).toBe(0.9);
+    const audit = JSON.parse(
+      readFileSync(join(artifacts, "egress-audit.json"), "utf8"),
+    );
+    expect(audit.audits.length).toBeGreaterThan(0);
+    expect(audit.audits[0].payload_sha256).toMatch(/^[a-f0-9]{64}$/);
+  });
+
   it("exits 2 when artifacts belong to a different scenario than the intent", async () => {
     const artifacts = join(tmp, "mismatch");
     writeFileSync(join(tmp, "mismatch-manifest-dir"), "");

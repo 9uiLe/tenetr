@@ -80,20 +80,37 @@ export async function run(
       "--run-id <id>",
       "run id (default: derived from capture manifest hash)",
     )
+    .option(
+      "--model-transport <spec>",
+      "enable model evaluation: claude-cli | module:<path> (default: off; deterministic only)",
+    )
+    .option(
+      "--confidence-threshold <n>",
+      "human_review escalation threshold (§12.4)",
+      "0.7",
+    )
     .action(
-      (options: {
+      async (options: {
         pack: string;
         intent: string;
         artifacts: string;
         out: string;
         runId?: string;
+        modelTransport?: string;
+        confidenceThreshold: string;
       }) => {
-        exitCode = runEvaluate(
+        exitCode = await runEvaluate(
           options.pack,
           options.intent,
           options.artifacts,
           options.out,
-          options.runId,
+          {
+            ...(options.runId !== undefined ? { runId: options.runId } : {}),
+            ...(options.modelTransport !== undefined
+              ? { modelTransport: options.modelTransport }
+              : {}),
+            confidenceThreshold: Number(options.confidenceThreshold),
+          },
           io,
         );
       },

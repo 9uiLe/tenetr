@@ -46,7 +46,16 @@ export interface ModelResponse {
 
 // モデル呼び出しの唯一の境界 (ADR-0001 拘束7 / ADR-0005 Q3)。
 // SDK・HTTP クライアントの import はこの interface の実装モジュールにのみ許される。
+export interface PreparedImage extends ModelImage {
+  bytes: Buffer;
+  masked: boolean;
+  sent_sha256: string;
+}
+
 export interface ProviderTransport {
   id: string;
-  send(request: ModelEvaluationRequest): Promise<unknown>;
+  send(
+    request: ModelEvaluationRequest,
+    preparedImages: PreparedImage[],
+  ): Promise<unknown>;
 }

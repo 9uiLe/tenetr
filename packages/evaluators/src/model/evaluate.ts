@@ -1,5 +1,7 @@
 import { Ajv2020 } from "ajv/dist/2020.js";
 import type { Finding } from "../context.js";
+import type { EgressAudit, EgressPolicy } from "./egress.js";
+import { EgressBlockedError, prepareEgress } from "./egress.js";
 import { MODEL_RESPONSE_SCHEMA } from "./response-schema.js";
 import type {
   ModelEvaluationRequest,
@@ -9,6 +11,8 @@ import type {
 
 export interface ModelRunOptions {
   confidenceThreshold: number;
+  egressPolicy: EgressPolicy;
+  onAudit?: (audit: EgressAudit) => void;
 }
 
 export async function runModelEvaluation(
@@ -25,8 +29,28 @@ export async function runModelEvaluation(
     const findingId = `finding-model-${principleId.replace(/\./g, "-")}`;
     let raw: unknown;
     try {
-      raw = await transport.send(request);
+      // Why not: transport へ直接 request を渡す方が単純 | Reason: 送信は必ず prepareEgress を
+      // 通す配線にし、チョークポイント (ADR-0005 Q3) を迂回できる呼び出し経路を作らない
+      const prepared = prepareEgress(request, options.egressPolicy);
+      options.onAudit?.(prepared.audit);
+      raw = await transport.send(request, prepared.images);
     } catch (error) {
+      if (error instanceof EgressBlockedError) {
+        findings.push({
+          id: findingId,
+          evaluator: `model-${transport.id}`,
+          principle: principleId,
+          kind: "model",
+          verdict: "unknown",
+          confidence: 0,
+          observations: [
+            { type: "metadata", fact: `送信制御により遮断: ${error.message}` },
+          ],
+          judgment:
+            "egress ポリシーにより送信せず、モデル評価を無効化した (fail-closed)",
+        });
+        continue;
+      }
       findings.push({
         id: findingId,
         evaluator: `model-${transport.id}`,
