@@ -41,3 +41,14 @@ jobs:
       - name: Check (build + lint + codegen freshness + tests)
         if: steps.detect.outputs.workspace == 'true'
         run: pnpm check
+
+  pack-governance:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pack changes require a Decision Record (§20.2)
+        run: node scripts/check-pack-governance.mjs --base "origin/${{ github.base_ref }}"
