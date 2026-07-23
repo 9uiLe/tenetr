@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "task": {
+    "id": "declutter-completion-screen",
+    "description": "日次完了画面の初期表示を必要最小限にし、次の行動が迷わず1つに定まるようにする。完了の事実と連続記録は残す。",
+    "scenario": "completed",
+    "screen": "日次パズル完了画面"
+  },
+  "classification": "improve-existing-screen",
+  "applicable_principles": [
+    {
+      "id": "focus.single-primary-decision",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3, completion-screen-v4, completion-screen-v5 が支持、却下例 completion-screen-v1 が違反として記録)"
+    },
+    {
+      "id": "information.minimal-first-view",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v4 が支持、却下例 completion-screen-v2 が違反として記録)"
+    },
+    {
+      "id": "expression.no-artificial-excitement",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3 が支持、却下例 completion-screen-v1 が違反として記録)"
+    },
+    {
+      "id": "consistency.use-established-components",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v3 が支持、却下例 completion-screen-v6 が違反として記録)"
+    },
+    {
+      "id": "brand.expression-within-usability",
+      "reason": "対象シナリオの事例が本原則を参照している (採用例 completion-screen-v5 が支持、却下例 completion-screen-v6 が違反として記録)"
+    }
+  ],
+  "referenced_exemplars": [
+    {
+      "id": "completion-screen-v3",
+      "relation": "follow"
+    },
+    {
+      "id": "completion-screen-v4",
+      "relation": "follow"
+    },
+    {
+      "id": "completion-screen-v5",
+      "relation": "follow"
+    },
+    {
+      "id": "completion-screen-v1",
+      "relation": "avoid"
+    },
+    {
+      "id": "completion-screen-v2",
+      "relation": "avoid"
+    },
+    {
+      "id": "completion-screen-v6",
+      "relation": "avoid"
+    }
+  ],
+  "tradeoff_resolutions": [],
+  "unresolved_items": [
+    {
+      "id": "reminder-placement",
+      "question": "リマインダー導線を開示操作の背後へ移してよいか",
+      "blocking": false,
+      "default_answer": "開示の背後へ移す(minimal-first-view を優先)"
+    }
+  ],
+  "acceptance_criteria": [
+    "primary-control-count == 1",
+    "primary-secondary-style-distinct == true",
+    "required-elements-present == true",
+    "hardcoded-style-values == 0"
+  ],
+  "constraints": [
+    "完了の事実(ヘッダー)を残す",
+    "連続記録の表示を残す"
+  ],
+  "ready_to_implement": true,
+  "ready_blockers": []
+}
