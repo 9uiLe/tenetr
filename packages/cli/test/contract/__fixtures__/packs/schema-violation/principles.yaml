@@ -1,0 +1,15 @@
+schema_version: "1.0"
+principles:
+  - id: focus.single-primary-decision
+    title: 主判断を1つに限定する
+    statement: 各画面は主判断を1つだけ提示する。
+    rationale: 主操作が複数あると判断が遅れる。
+    severity: fail
+    checks:
+      deterministic:
+        - id: primary-control-count
+          expect: "== 1"
+      model:
+        - 主操作が一意に認識できるか
+    exemplars:
+      supports: [sample-good]

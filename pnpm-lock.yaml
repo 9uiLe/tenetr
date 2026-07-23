@@ -38,6 +38,9 @@ importers:
       '@tenetr/spec':
         specifier: workspace:*
         version: link:../spec
+      commander:
+        specifier: 15.0.0
+        version: 15.0.0
     devDependencies:
       '@types/node':
         specifier: 26.1.1
@@ -48,6 +51,19 @@ importers:
       '@tenetr/spec':
         specifier: workspace:*
         version: link:../spec
+      ajv:
+        specifier: 8.20.0
+        version: 8.20.0
+      ajv-formats:
+        specifier: 3.0.1
+        version: 3.0.1(ajv@8.20.0)
+      yaml:
+        specifier: 2.9.0
+        version: 2.9.0
+    devDependencies:
+      '@types/node':
+        specifier: 26.1.1
+        version: 26.1.1
 
   packages/evaluators:
     dependencies:
@@ -460,6 +476,10 @@ packages:
   chai@6.2.2:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
+
+  commander@15.0.0:
+    resolution: {integrity: sha512-z67u4ZhzCL/Tydu1lJARtEZYWbWaN7oYLHbsuzocr6y4N6WZAagG3RQ4FW61V1/0+jImpj293XfrcYnd1qxtPg==}
+    engines: {node: '>=22.12.0'}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -1031,6 +1051,8 @@ snapshots:
   assertion-error@2.0.1: {}
 
   chai@6.2.2: {}
+
+  commander@15.0.0: {}
 
   convert-source-map@2.0.0: {}
 

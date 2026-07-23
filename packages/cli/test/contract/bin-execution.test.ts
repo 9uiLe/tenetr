@@ -37,8 +37,8 @@ describe("design-harness bin execution contract", () => {
     expect(existsSync(binPath)).toBe(true);
   });
 
-  it("exits 0 for the placeholder invocation", async () => {
-    const result = await runCli([]);
-    expect(result.code).toBe(0);
+  it("exits 4 for a bare invocation and 0 for explicit --help", async () => {
+    expect((await runCli([])).code).toBe(4);
+    expect((await runCli(["--help"])).code).toBe(0);
   });
 });

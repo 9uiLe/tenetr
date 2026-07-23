@@ -1,0 +1,10 @@
+schema_version: "1.0"
+exemplars:
+  - id: sample-good
+    status: accepted
+    synthetic: true
+    artifact: accepted/sample-good.png
+    scenario: completed
+    principles:
+      supports: [focus.single-primary-decision]
+    rationale: 主操作が1つだけ。

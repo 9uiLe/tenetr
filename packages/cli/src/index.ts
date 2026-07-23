@@ -1,4 +1,49 @@
-export function run(argv: readonly string[]): Promise<number> {
-  void argv;
-  return Promise.resolve(0);
+import { Command, CommanderError } from "commander";
+import { runValidate } from "./commands/validate.js";
+import type { ExitCode } from "./exit-codes.js";
+import { EXIT_CODES } from "./exit-codes.js";
+import type { CliIo } from "./io.js";
+import { processIo } from "./io.js";
+
+export async function run(
+  argv: readonly string[],
+  io: CliIo = processIo,
+): Promise<number> {
+  let exitCode: ExitCode = EXIT_CODES.valid;
+
+  const program = new Command("design-harness");
+  program
+    .description("Design Philosophy Harness CLI (§10)")
+    .exitOverride()
+    .configureOutput({
+      writeOut: (text) => io.out(text.trimEnd()),
+      writeErr: (text) => io.err(text.trimEnd()),
+    });
+
+  program
+    .command("validate")
+    .description("validate a philosophy pack directory (§10.2)")
+    .requiredOption("--pack <dir>", "path to the design-philosophy directory")
+    .action((options: { pack: string }) => {
+      exitCode = runValidate(options.pack, io);
+    });
+
+  try {
+    await program.parseAsync([...argv], { from: "user" });
+  } catch (error) {
+    if (error instanceof CommanderError) {
+      if (
+        error.code === "commander.helpDisplayed" ||
+        error.code === "commander.version"
+      ) {
+        return EXIT_CODES.valid;
+      }
+      // Why not: commander 既定の exit 1 をそのまま使うことも出来る | Reason: §10.2 で 1 は「スキーマ違反」に
+      // 予約されているため、usage 誤りは 4 (実行環境エラー) に集約して契約の衝突を避ける
+      return EXIT_CODES.environmentError;
+    }
+    io.err(`unexpected error: ${(error as Error).message}`);
+    return EXIT_CODES.environmentError;
+  }
+  return exitCode;
 }
