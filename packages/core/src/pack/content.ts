@@ -67,3 +67,10 @@ export function loadPackContent(packDir: string): {
     })),
   };
 }
+
+export function loadPackVersion(packDir: string): string {
+  const manifest = parse(readFileSync(join(packDir, "pack.yaml"), "utf8")) as {
+    product: { philosophy_version: string };
+  };
+  return manifest.product.philosophy_version;
+}
