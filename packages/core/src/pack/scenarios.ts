@@ -9,6 +9,7 @@ export interface ScenarioDefinition {
   required_artifacts: string[];
   reproduction: { method: string; ready_signal?: string; notes?: string };
   required_element_identifiers?: string[];
+  mask_regions?: { x: number; y: number; width: number; height: number }[];
   environment?: Record<string, string>;
 }
 

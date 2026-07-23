@@ -2,19 +2,24 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import {
+  loadPackContent,
   loadScenarios,
   validateEvaluationDocument,
   validatePack,
 } from "@tenetr/core";
-import type { EvaluationContext } from "@tenetr/evaluators";
+import type { EvaluationContext, ProviderTransport } from "@tenetr/evaluators";
 import {
   accessibilityLabelEvaluator,
   artifactPresenceEvaluator,
   buildEvaluation,
+  buildModelRequests,
+  createClaudeCliTransport,
+  createModuleTransport,
   gateDecision,
   primaryControlCountEvaluator,
   primaryStyleDistinctEvaluator,
   requiredElementsEvaluator,
+  runModelEvaluation,
   tapTargetEvaluator,
 } from "@tenetr/evaluators";
 import type { DesignIntentContract, UISnapshot } from "@tenetr/spec";
@@ -31,14 +36,20 @@ const DETERMINISTIC_EVALUATORS = [
   tapTargetEvaluator,
 ];
 
-export function runEvaluate(
+export interface EvaluateOptions {
+  runId?: string;
+  modelTransport?: string;
+  confidenceThreshold: number;
+}
+
+export async function runEvaluate(
   packDir: string,
   intentFile: string,
   artifactsDir: string,
   outFile: string,
-  runId: string | undefined,
+  options: EvaluateOptions,
   io: CliIo,
-): ExitCode {
+): Promise<ExitCode> {
   const validation = validatePack(packDir);
   if (!validation.ok) {
     for (const issue of validation.issues) {
@@ -97,10 +108,82 @@ export function runEvaluate(
   const findings = DETERMINISTIC_EVALUATORS.flatMap((evaluator) =>
     evaluator.evaluate(context),
   );
+
+  if (options.modelTransport) {
+    let transport: ProviderTransport;
+    if (options.modelTransport === "claude-cli") {
+      transport = createClaudeCliTransport();
+    } else if (options.modelTransport.startsWith("module:")) {
+      transport = await createModuleTransport(
+        options.modelTransport.slice("module:".length),
+      );
+    } else {
+      io.err(`unknown model transport: ${options.modelTransport}`);
+      return EXIT_CODES.environmentError;
+    }
+
+    const content = loadPackContent(packDir);
+    const afterEntry = captureManifest.artifacts.find(
+      (a) => a.path === "screenshot.png",
+    );
+    if (!afterEntry) {
+      io.err(
+        "model evaluation requires screenshot.png in the capture manifest",
+      );
+      return EXIT_CODES.environmentError;
+    }
+    const requests = buildModelRequests(
+      {
+        principles: content.principles,
+        exemplars: content.exemplars,
+      },
+      {
+        task: {
+          description: intent.task.description,
+          scenario: intent.task.scenario,
+        },
+        constraints: intent.constraints ?? [],
+        applicablePrincipleIds: intent.applicable_principles.map((p) => p.id),
+      },
+      {
+        afterImage: {
+          path: join(artifactsDir, "screenshot.png"),
+          sha256: afterEntry.sha256,
+        },
+        exemplarImage: (exemplarId) => {
+          const exemplar = content.exemplars.find((e) => e.id === exemplarId);
+          if (!exemplar || !existsSync(exemplar.artifactPath)) return undefined;
+          const bytes = readFileSync(exemplar.artifactPath);
+          return {
+            path: exemplar.artifactPath,
+            sha256: createHash("sha256").update(bytes).digest("hex"),
+          };
+        },
+      },
+    );
+    const audits: unknown[] = [];
+    const modelFindings = await runModelEvaluation(requests, transport, {
+      confidenceThreshold: options.confidenceThreshold,
+      egressPolicy: {
+        policy_version: "1.0",
+        allowed_purposes: ["after", "exemplar-accepted", "exemplar-rejected"],
+        mask_regions: scenario.mask_regions ?? [],
+      },
+      onAudit: (audit) => audits.push(audit),
+    });
+    findings.push(...modelFindings);
+    writeFileSync(
+      join(artifactsDir, "egress-audit.json"),
+      `${JSON.stringify({ schema_version: "1.0", audits }, null, 2)}\n`,
+    );
+    io.out(
+      `egress audit written: ${join(artifactsDir, "egress-audit.json")} (${audits.length} request(s))`,
+    );
+  }
   // Why not: 実行時刻ベースの run id も一般的 | Reason: 同一入力→同一出力の再現性 (§22.2, #15) を
   // 成果物ハッシュ由来の id で機械的に保証する。時刻は run-manifest (#22) が別途持つ
   const effectiveRunId =
-    runId ??
+    options.runId ??
     `run-${createHash("sha256").update(manifestRaw).digest("hex").slice(0, 12)}`;
   const evaluation = buildEvaluation(effectiveRunId, findings);
 

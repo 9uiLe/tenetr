@@ -43,5 +43,9 @@ export type {
   ModelImage,
   ModelImagePurpose,
   ModelResponse,
+  PreparedImage,
   ProviderTransport,
 } from "./model/transport.js";
+export type { ClaudeCliOptions } from "./model/transports/claude-cli.js";
+export { createClaudeCliTransport } from "./model/transports/claude-cli.js";
+export { createModuleTransport } from "./model/transports/module.js";

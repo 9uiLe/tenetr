@@ -8,6 +8,8 @@ export type {
   TaskOpenQuestion,
 } from "./intent/resolve.js";
 export { resolveIntent } from "./intent/resolve.js";
+export type { PackExemplar, PackPrinciple } from "./pack/content.js";
+export { loadPackContent } from "./pack/content.js";
 export type { ScenarioDefinition } from "./pack/scenarios.js";
 export { loadScenarios } from "./pack/scenarios.js";
 export type {
