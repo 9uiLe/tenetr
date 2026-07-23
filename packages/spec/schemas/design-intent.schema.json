@@ -16,16 +16,30 @@
   ],
   "additionalProperties": false,
   "properties": {
-    "schema_version": { "type": "string", "pattern": "^1\\.\\d+$" },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.\\d+$"
+    },
     "task": {
       "type": "object",
       "required": ["id", "description", "scenario"],
       "additionalProperties": false,
       "properties": {
-        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-        "description": { "type": "string", "minLength": 1 },
-        "scenario": { "type": "string", "minLength": 1 },
-        "screen": { "type": "string" }
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scenario": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "string"
+        }
       }
     },
     "classification": {
@@ -47,7 +61,10 @@
             "type": "string",
             "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
           },
-          "reason": { "type": "string", "minLength": 1 }
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -58,8 +75,13 @@
         "required": ["id", "relation"],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-          "relation": { "enum": ["follow", "avoid"] }
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "relation": {
+            "enum": ["follow", "avoid"]
+          }
         }
       }
     },
@@ -70,12 +92,18 @@
         "required": ["tradeoff", "resolved_to", "reason"],
         "additionalProperties": false,
         "properties": {
-          "tradeoff": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "tradeoff": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
           "resolved_to": {
             "type": "string",
             "pattern": "^[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
           },
-          "reason": { "type": "string", "minLength": 1 }
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
@@ -86,49 +114,90 @@
         "required": ["id", "question", "blocking"],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-          "question": { "type": "string", "minLength": 1 },
-          "blocking": { "type": "boolean" },
-          "default_answer": { "type": "string" }
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blocking": {
+            "type": "boolean"
+          },
+          "default_answer": {
+            "type": "string"
+          }
         }
       }
     },
     "acceptance_criteria": {
       "type": "array",
-      "items": { "type": "string", "minLength": 1 }
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "constraints": {
       "type": "array",
-      "items": { "type": "string", "minLength": 1 }
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
-    "ready_to_implement": { "type": "boolean" },
+    "ready_to_implement": {
+      "type": "boolean"
+    },
     "ready_blockers": {
       "type": "array",
-      "items": { "type": "string", "minLength": 1 }
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     }
   },
   "allOf": [
     {
       "if": {
-        "properties": { "ready_to_implement": { "const": true } },
+        "properties": {
+          "ready_to_implement": {
+            "const": true
+          }
+        },
         "required": ["ready_to_implement"]
       },
       "then": {
         "properties": {
-          "applicable_principles": { "minItems": 1 },
-          "acceptance_criteria": { "minItems": 1 },
-          "ready_blockers": { "maxItems": 0 }
+          "applicable_principles": {
+            "type": "array",
+            "minItems": 1
+          },
+          "acceptance_criteria": {
+            "type": "array",
+            "minItems": 1
+          },
+          "ready_blockers": {
+            "type": "array",
+            "maxItems": 0
+          }
         }
       }
     },
     {
       "if": {
-        "properties": { "ready_to_implement": { "const": false } },
+        "properties": {
+          "ready_to_implement": {
+            "const": false
+          }
+        },
         "required": ["ready_to_implement"]
       },
       "then": {
         "properties": {
-          "ready_blockers": { "minItems": 1 }
+          "ready_blockers": {
+            "type": "array",
+            "minItems": 1
+          }
         }
       }
     }
